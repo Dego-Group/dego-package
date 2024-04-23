@@ -8,6 +8,8 @@ import { e, generateDegoId } from './html'
 import { replaceComponent, setupSubRender } from './helpers'
 import { run, timing } from './timing'
 
+import { degoBuildConfig } from './config'
+
 function evalCurrentPath(preRenderRoute?: string) {
   const isNode = window.isNode
 
@@ -154,6 +156,8 @@ export async function render(
       })
     })
   }
+
+  console.log(degoBuildConfig)
 
   const index = await import(
     /* webpackIgnore: true */

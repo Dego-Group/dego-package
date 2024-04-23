@@ -6,7 +6,7 @@ const out = path.resolve(__dirname, 'dist')
 module.exports = {
   target: 'node',
   entry: {
-    bin: './src/bin.ts',
+    bin: './src/bin/bin.ts',
     index: './src/index.ts',
   },
   output: {
