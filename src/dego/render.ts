@@ -156,8 +156,8 @@ export async function render(
   }
 
   const index = await import(
-    /* webpackExports: ["default", "config", "Loading"] */
-    `../pages${evalCurrentPath()}`
+    /* webpackIgnore: true */
+    `D:/programming/linkme/dego/src/pages${evalCurrentPath()}`
   )
 
   if (!index || !('default' in index) || typeof index.default !== 'function') {
