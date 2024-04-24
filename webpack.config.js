@@ -28,7 +28,7 @@ module.exports = {
       },
     ],
   },
-  mode: 'development',
+  mode: 'production',
   resolve: {
     modules: [path.resolve(__dirname, 'src'), 'node_modules'],
     extensions: ['', '.ts', '.js'],

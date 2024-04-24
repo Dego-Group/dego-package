@@ -1,6 +1,6 @@
 {
   "name": "dego",
-  "version": "0.0.10",
+  "version": "0.1.0",
   "bin": "./dist/bin.js",
   "main": "./dist/index.js",
   "types": "./types/index.d.ts",
