@@ -1,13 +1,45 @@
 #!/usr/bin/env node
 
 import { getConfig } from './config'
-import { readFileSync } from 'fs'
+import { getHelp } from './help'
+import { getVersion } from './version'
+import { setupBuild } from './build'
 import yargs from 'yargs'
 
-const argv = yargs(process.argv.slice(2))
-  .options({
-    config: { type: 'string' },
-  })
+export const EXPECTED_COMMANDS = [
+  {
+    command: 'dev',
+    explanation:
+      'Run dev server, exposes a dev server port and auto refreshes your browser for you.',
+  },
+  {
+    command: 'version',
+    explanation:
+      'Gets the current version of Dego and compares it to your local version.',
+  },
+  {
+    command: 'build',
+    explanation: 'Builds Dego based on your `dego.config.js` file.',
+  },
+] as const
+
+export const OPTIONS = {
+  config: {
+    type: 'string',
+    description:
+      'Path to Dego config file, relative to the current working directory.',
+  },
+  help: {
+    type: 'boolean',
+    default: false,
+    description: 'Shows all valid commands and flags along with their uses.',
+  },
+} as const
+
+export const argv = yargs(process.argv.slice(2))
+  .options(OPTIONS)
+  .help(false)
+  .version(false)
   .parseSync()
 
 let configPath = argv.config
@@ -18,40 +50,27 @@ if (configPath?.startsWith('.')) {
 
 const config = getConfig(configPath)
 
-switch (argv._[0]) {
+switch (argv._[0] as (typeof EXPECTED_COMMANDS)[number]['command']) {
   case 'dev': {
     console.log('Dev mode')
     break
   }
   case 'version': {
-    const packageJSONLocation =
-      argv.$0.split('\\').slice(0, -2).join('\\') + '\\package.json'
-
-    const headers = new Headers()
-    headers.set(
-      'Authorization',
-      'Bearer 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'
-    )
-    headers.set('accept', 'application/vnd.github+json')
-
-    const response = await await fetch(
-      'https://api.github.com/repos/Hexy32/dego-package/contents/package.json',
-      { headers }
-    ).then(res => res.json())
-
-    const remotePackageInfo = JSON.parse(
-      Buffer.from(response.content, 'base64').toString('utf8')
-    )
-
-    const file = readFileSync(packageJSONLocation, { encoding: 'utf8' })
-    const packageInfo = JSON.parse(file)
-    if (remotePackageInfo.version !== packageInfo.version) {
-      console.log(
-        `Dego is out of date!\nYour version: ${packageInfo.version}\nCurrent version: ${remotePackageInfo.version}`
-      )
-    } else {
-      console.log(`Dego up to date!\nVersion:${packageInfo.version}`)
-    }
+    console.log(await getVersion(argv))
     break
+  }
+  case 'build': {
+    console.log('TODO')
+    setupBuild(config)
+    break
+  }
+  default: {
+    if (argv.help) {
+      console.log(getHelp())
+    } else {
+      console.warn(
+        `Valid command not provided, valid commands and flags:\n\n${getHelp()}`
+      )
+    }
   }
 }

@@ -1,3 +1,5 @@
+import { Configuration } from '..'
+
 export const DEFAULT_CONFIG = {
   srcDir: './src',
   pagesDir: './src/pages',
@@ -6,7 +8,7 @@ export const DEFAULT_CONFIG = {
 
 let path = '/dego.config.js'
 
-export function getConfig(configPath?: string) {
+export function getConfig(configPath?: string): Configuration {
   try {
     if (configPath) path = configPath
 
@@ -17,7 +19,7 @@ export function getConfig(configPath?: string) {
 
     return config
   } catch (error: any) {
-    throw new Error(
+    throw console.error(
       `Error loading config file. Path must be within project root. ${error.message}`
     )
   }
