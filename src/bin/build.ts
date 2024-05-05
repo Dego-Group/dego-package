@@ -1,20 +1,43 @@
-import { existsSync, readFileSync } from 'fs'
-
 import { Configuration } from '..'
 
-const PATH_TO_DEGO_BROWSER_CONFIG = '../src/dego/config/index.ts'
-const REGEX =
-  /\/\* __DEGO-REPLACE:START__ \*\/(.*)\/\* __DEGO-REPLACE:END__ \*\//
-
+/**
+ * [Webpack Documentation (Node Interface)](https://webpack.js.org/api/node/)
+ */
 export function setupBuild(config: Configuration) {
-  const doesExist = existsSync(PATH_TO_DEGO_BROWSER_CONFIG)
-  if (!doesExist) {
-    throw console.error(
-      'Dego browser config does not exist at ' + PATH_TO_DEGO_BROWSER_CONFIG
-    )
-  }
+  console.log('Starting build...')
+  // console.log(webpack)
+  // const webpackInstance = webpack({})
+  // webpackInstance.run((err, stats) => {
+  //   if (err) {
+  //     console.error(err.stack || err)
+  //     if ('details' in err) {
+  //       console.error(err.details)
+  //     }
+  //     return
+  //   }
 
-  const file = readFileSync(PATH_TO_DEGO_BROWSER_CONFIG, { encoding: 'utf8' })
-  file.replace(REGEX, 'test')
-  console.log(file)
+  //   if (!stats) {
+  //     return console.error('No stats object returned after webpack build!')
+  //   }
+
+  //   const info = stats.toJson()
+
+  //   if (stats.hasErrors()) {
+  //     console.error(info.errors)
+  //   }
+
+  //   if (stats.hasWarnings()) {
+  //     console.warn(info.warnings)
+  //   }
+
+  //   console.log(stats)
+  // })
+
+  // webpackInstance.close(err => {
+  //   if (err) {
+  //     console.error(
+  //       'There has been an issue closing the Webpack Instance:' + err
+  //     )
+  //   }
+  // })
 }

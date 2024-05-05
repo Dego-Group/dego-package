@@ -8,8 +8,6 @@ import { e, generateDegoId } from './html'
 import { replaceComponent, setupSubRender } from './helpers'
 import { run, timing } from './timing'
 
-import { degoBuildConfig } from './config'
-
 function evalCurrentPath(preRenderRoute?: string) {
   const isNode = window.isNode
 
@@ -29,7 +27,7 @@ export async function getPageJS(
     const index = await import(
       /* webpackExports: ["default", "config"] */
       /* webpackIgnore: true */
-      `D:/programming/linkme/dego/src/pages${evalCurrentPath(route)}`
+      `D:/programming/linkme/dego-demo/src/pages${evalCurrentPath(route)}`
     )
 
     if (
@@ -157,11 +155,10 @@ export async function render(
     })
   }
 
-  console.log(degoBuildConfig)
-
   const index = await import(
+    /* webpackExports: ["default", "config"] */
     /* webpackIgnore: true */
-    `D:/programming/linkme/dego/src/pages${evalCurrentPath()}`
+    `D:/programming/linkme/dego-demo/src/pages${evalCurrentPath()}`
   )
 
   if (!index || !('default' in index) || typeof index.default !== 'function') {

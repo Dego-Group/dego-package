@@ -6,7 +6,9 @@ export const DEFAULT_CONFIG = {
   outDir: './',
 }
 
-let path = '/dego.config.js'
+export const DEFAULT_CONFIG_PATH = '/dego.config.js'
+
+let path = DEFAULT_CONFIG_PATH
 
 export function getConfig(configPath?: string): Configuration {
   try {

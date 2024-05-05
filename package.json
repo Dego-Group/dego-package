@@ -2,23 +2,60 @@
   "name": "dego",
   "version": "0.2.0",
   "bin": "./dist/bin.js",
+  "targets": {
+    "bin": {
+      "source": "./src/bin/bin.ts",
+      "isLibrary": true
+    },
+    "main": {
+      "source": "./src/index.ts",
+      "isLibrary": true
+    }
+  },
+  "engines": {
+    "node": ">= 20"
+  },
   "main": "./dist/index.js",
   "types": "./types/index.d.ts",
-  "type": "commonjs",
   "scripts": {
-    "dev": "webpack --watch",
-    "build": "webpack --mode=production"
+    "dev": "parcel watch",
+    "build": "parcel build"
   },
   "devDependencies": {
+    "@parcel/transformer-typescript-types": "2.12.0",
     "@types/node": "^20.12.7",
+    "@types/webpack": "^5.28.5",
     "@types/yargs": "^17.0.32",
-    "swc-loader": "^0.2.6",
+    "assert": "^2.0.0",
+    "browserify-zlib": "^0.2.0",
+    "buffer": "^5.5.0||^6.0.0",
+    "constants-browserify": "^1.0.0",
+    "crypto-browserify": "^3.12.0",
+    "events": "^3.1.0",
+    "https-browserify": "^1.0.0",
+    "os-browserify": "^0.3.0",
+    "parcel": "^2.12.0",
+    "path-browserify": "^1.0.0",
+    "process": "^0.11.10",
+    "punycode": "^1.4.1",
+    "querystring-es3": "^0.2.1",
+    "stream-browserify": "^3.0.0",
+    "stream-http": "^3.1.0",
     "ts-loader": "^9.5.1",
+    "tty-browserify": "^0.0.1",
     "typescript": "^5.4.5",
-    "webpack": "^5.91.0",
+    "url": "^0.11.0",
+    "util": "^0.12.3",
+    "vm-browserify": "^1.1.2",
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
+    "@swc/core": "^1.5.0",
+    "@swc/wasm": "^1.5.0",
+    "esbuild": "^0.20.2",
+    "swc-loader": "^0.2.6",
+    "uglify-js": "^3.17.4",
+    "webpack": "^5.91.0",
     "yargs": "^17.7.2"
   }
 }

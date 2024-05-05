@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
-    "outDir": "./types",
+    "outDir": "./dist",
     "rootDir": "./src",
     "strict": true,
     "esModuleInterop": true,
@@ -11,6 +11,7 @@
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "node",
     "declaration": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "declarationDir": "./types"
   }
 }

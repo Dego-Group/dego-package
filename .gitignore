@@ -60,6 +60,7 @@ node_modules/
 /build
 /dist
 /out
+/types
 
 # ignore composer vendor directory
 /vendor
