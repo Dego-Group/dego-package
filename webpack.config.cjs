@@ -1,12 +1,11 @@
 const path = require('path')
 
-const out = path.resolve(__dirname, 'dist')
+const out = path.resolve(__dirname, 'dist/webpack/dego')
 
 /** @type {import('webpack').Configuration} */
 module.exports = {
   target: 'node',
   entry: {
-    bin: './src/bin/bin.ts',
     index: './src/index.ts',
   },
   output: {
@@ -37,6 +36,6 @@ module.exports = {
     poll: 1000,
   },
   optimization: {
-    usedExports: false,
+    usedExports: true,
   },
 }

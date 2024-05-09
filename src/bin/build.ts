@@ -1,11 +1,12 @@
 import { Configuration } from '..'
+import webpack from 'webpack'
 
 /**
  * [Webpack Documentation (Node Interface)](https://webpack.js.org/api/node/)
  */
 export function setupBuild(config: Configuration) {
   console.log('Starting build...')
-  // console.log(webpack)
+  console.log(webpack)
   // const webpackInstance = webpack({})
   // webpackInstance.run((err, stats) => {
   //   if (err) {

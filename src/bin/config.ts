@@ -10,12 +10,12 @@ export const DEFAULT_CONFIG_PATH = '/dego.config.js'
 
 let path = DEFAULT_CONFIG_PATH
 
-export function getConfig(configPath?: string): Configuration {
+export async function getConfig(configPath?: string): Promise<Configuration> {
   try {
     if (configPath) path = configPath
 
     // @ts-ignore
-    const userConfig = __non_webpack_require__(`${process.cwd()}${path}`)
+    const userConfig = await import(`file://${process.cwd()}${path}`)
 
     const config = { ...DEFAULT_CONFIG, ...userConfig }
 

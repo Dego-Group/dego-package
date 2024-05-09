@@ -1,12 +1,11 @@
 #!/usr/bin/env node
 
-import { DEFAULT_CONFIG_PATH, getConfig } from './config'
+import { DEFAULT_CONFIG_PATH, getConfig } from './config.js'
 
-import { getHelp } from './help'
-import { getVersion } from './version'
-import { setupBuild } from './build'
-
-// import yargs from 'yargs'
+import { getHelp } from './help.js'
+import { getVersion } from './version.js'
+import { setupBuild } from './build.js'
+import yargs from 'yargs'
 
 export const EXPECTED_COMMANDS = [
   {
@@ -38,7 +37,6 @@ export const OPTIONS = {
   },
 } as const
 
-// @ts-ignore
 export const argv = yargs(process.argv.slice(2))
   .options(OPTIONS)
   .help(false)
@@ -51,7 +49,7 @@ if (configPath?.startsWith('.')) {
   configPath = configPath.slice(1)
 }
 
-const config = getConfig(configPath ?? DEFAULT_CONFIG_PATH)
+const config = await getConfig(configPath ?? DEFAULT_CONFIG_PATH)
 
 switch (argv._[0] as (typeof EXPECTED_COMMANDS)[number]['command']) {
   case 'dev': {

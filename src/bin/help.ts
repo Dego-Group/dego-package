@@ -1,4 +1,4 @@
-import { EXPECTED_COMMANDS, OPTIONS } from './bin'
+import { EXPECTED_COMMANDS, OPTIONS } from './index.js'
 
 export function getHelp() {
   let longestLength = 0

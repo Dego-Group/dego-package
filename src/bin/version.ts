@@ -1,9 +1,9 @@
-import { argv as A } from './bin'
+import { argv as A } from './index.js'
 import { readFileSync } from 'fs'
 
 export async function getVersion(argv: typeof A) {
   const packageJSONLocation =
-    argv.$0.split('\\').slice(0, -2).join('\\') + '\\package.json'
+    argv.$0.split('\\').slice(0, -3).join('\\') + '\\package.json'
 
   const headers = new Headers()
   headers.set(

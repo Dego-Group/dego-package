@@ -18,17 +18,19 @@ function evalCurrentPath(preRenderRoute?: string) {
   return window.location.pathname
 }
 
+const importPage = async (route?: string) =>
+  await import(
+    /* webpackIgnore: true */
+    `D:/programming/linkme/dego-demo/src/pages${evalCurrentPath(route)}`
+  )
+
 export async function getPageJS(
   route: string
 ): Promise<{ default: () => DegoComponent; config?: DegoConfig } | undefined> {
   if (!route.startsWith('/')) return
 
   try {
-    const index = await import(
-      /* webpackExports: ["default", "config"] */
-      /* webpackIgnore: true */
-      `D:/programming/linkme/dego-demo/src/pages${evalCurrentPath(route)}`
-    )
+    const index = await importPage(route)
 
     if (
       !index ||
@@ -155,11 +157,7 @@ export async function render(
     })
   }
 
-  const index = await import(
-    /* webpackExports: ["default", "config"] */
-    /* webpackIgnore: true */
-    `D:/programming/linkme/dego-demo/src/pages${evalCurrentPath()}`
-  )
+  const index = await importPage()
 
   if (!index || !('default' in index) || typeof index.default !== 'function') {
     throw new Error(
