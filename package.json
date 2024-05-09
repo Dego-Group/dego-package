@@ -1,25 +1,28 @@
 {
   "name": "dego",
   "version": "0.3.0",
-  "bin": "./dist/typescript/bin/index.js",
+  "bin": "./dist/typescript/bin/index.mjs",
   "type": "commonjs",
   "main": "./dist/webpack/dego/index.js",
   "types": "./types/index.d.ts",
   "scripts": {
-    "dev": "concurrently \"tsc --watch --preserveWatchOutput\" \"webpack --watch\" -n \"BIN,LIB\" -c \"bgGreen,bgCyan\"",
-    "build": "tsc && webpack"
+    "dev": "rm -rf ./dist && concurrently \"tsc --watch --preserveWatchOutput\" \"webpack --watch\" -n \"BIN,LIB\" -c \"bgGreen,bgCyan\"",
+    "build": "rm -rf ./dist && tsc && webpack"
   },
   "devDependencies": {
+    "@types/html-minifier": "^4.0.5",
     "@types/node": "^20.12.7",
     "@types/webpack": "^5.28.5",
     "@types/yargs": "^17.0.32",
-    "ts-loader": "^9.5.1",
     "concurrently": "^8.2.2",
+    "ts-loader": "^9.5.1",
     "typescript": "^5.4.5",
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
+    "html-minifier": "^4.0.0",
     "webpack": "^5.91.0",
-    "yargs": "^17.7.2"
+    "yargs": "^17.7.2",
+    "zod": "^3.23.8"
   }
 }

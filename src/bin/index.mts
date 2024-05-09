@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
-import { DEFAULT_CONFIG_PATH, getConfig } from './config.js'
+import { DEFAULT_CONFIG_PATH, getConfig } from './config.mjs'
 
-import { getHelp } from './help.js'
-import { getVersion } from './version.js'
-import { setupBuild } from './build.js'
+import { getHelp } from './help.mjs'
+import { getVersion } from './version.mjs'
+import { setupBuild } from './build.mjs'
 import yargs from 'yargs'
 
 export const EXPECTED_COMMANDS = [

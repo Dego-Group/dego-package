@@ -1,4 +1,4 @@
-import { argv as A } from './index.js'
+import { argv as A } from './index.mjs'
 import { readFileSync } from 'fs'
 
 export async function getVersion(argv: typeof A) {
