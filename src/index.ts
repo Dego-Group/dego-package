@@ -1,11 +1,4 @@
 #!/usr/bin/env node
-
-export declare interface Configuration {
-  srcDir: string
-  pagesDir: string
-  outDir: string
-}
-
 export * from './dego/timing'
 export * from './dego/types'
 export * from './dego/html'
@@ -22,3 +15,7 @@ export * from './dego/hooks/store'
 export * from './dego/hooks/value'
 export * from './dego/hooks/watch'
 export * from './dego/render'
+
+import { DegoConfiguration } from './bin/config.mjs'
+
+export type Configuration = Partial<DegoConfiguration>

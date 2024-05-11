@@ -4,7 +4,7 @@ import { DEFAULT_CONFIG_PATH, getConfig } from './config.mjs'
 
 import { getHelp } from './help.mjs'
 import { getVersion } from './version.mjs'
-import { setupBuild } from './build.mjs'
+import { setupBuild } from './build/index.mjs'
 import yargs from 'yargs'
 
 export const EXPECTED_COMMANDS = [
@@ -43,17 +43,11 @@ export const argv = yargs(process.argv.slice(2))
   .version(false)
   .parseSync()
 
-let configPath = argv.config
-
-if (configPath?.startsWith('.')) {
-  configPath = configPath.slice(1)
-}
-
-const config = await getConfig(configPath ?? DEFAULT_CONFIG_PATH)
+const config = await getConfig(argv.config ?? DEFAULT_CONFIG_PATH)
 
 switch (argv._[0] as (typeof EXPECTED_COMMANDS)[number]['command']) {
   case 'dev': {
-    console.log('Dev mode')
+    setupBuild(config, true)
     break
   }
   case 'version': {
@@ -61,7 +55,6 @@ switch (argv._[0] as (typeof EXPECTED_COMMANDS)[number]['command']) {
     break
   }
   case 'build': {
-    console.log('TODO')
     setupBuild(config)
     break
   }

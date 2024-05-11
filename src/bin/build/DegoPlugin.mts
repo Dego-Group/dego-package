@@ -9,14 +9,16 @@ const minify = minifier.minify
 // schema for options object
 const schema = z.object({
   pagesFolder: z.string(),
-  htmlTemplateOverrideFile: z.string(),
-  outputFilePathForSSG: z.string().optional(),
+  out: z.string(),
+  htmlTemplateOverrideFile: z.string().optional(),
   ssg: z.boolean().default(false),
 })
 
-class DegoBuild {
-  options: z.infer<typeof schema>
-  constructor(options: any) {
+type Options = z.infer<typeof schema>
+
+export default class DegoBuild {
+  options: Options
+  constructor(options: Options) {
     const result = schema.parse(options)
 
     this.options = result
@@ -28,11 +30,15 @@ class DegoBuild {
     const { Compilation } = webpack
     const { RawSource } = webpack.sources
 
+    const nodeOutputPath = path.resolve(this.options.out, './node')
+    if (!fs.existsSync(nodeOutputPath)) {
+      fs.mkdirSync(nodeOutputPath, { recursive: true })
+    }
+
+    const nodeManifest = path.resolve(nodeOutputPath, './manifest.json')
+
     compiler.hooks.done.tap(pluginName, stats => {
       if (!this.options.ssg) return
-      const SSGpath = this.options.outputFilePathForSSG
-
-      if (!SSGpath) return
       const manifest = stats.toJson({ chunkOrigins: true }).chunks
 
       if (!manifest) throw new Error('Webpack manifest not found!')
@@ -45,9 +51,7 @@ class DegoBuild {
         })
         .filter(item => item !== null) // Filter out null entries
 
-      const outputFilePath = `${SSGpath}/manifest.json` // Customize file name
-
-      fs.writeFileSync(outputFilePath, JSON.stringify(outputData, null, 2))
+      fs.writeFileSync(nodeManifest, JSON.stringify(outputData, null, 2))
     })
 
     compiler.hooks.thisCompilation.tap(pluginName, compilation => {
@@ -60,7 +64,8 @@ class DegoBuild {
         },
         () => {
           const templateHTML = fs.readFileSync(
-            this.options.htmlTemplateOverrideFile,
+            this.options.htmlTemplateOverrideFile ??
+              path.resolve(__dirname, '../../../defaultTemplate.html'), //TODO path based on config
             'utf-8'
           )
 
@@ -73,7 +78,7 @@ class DegoBuild {
           const allFilePaths = getFilesRecursively(basePath)
 
           const manifest = JSON.parse(
-            fs.readFileSync('./out/node/manifest.json', {
+            fs.readFileSync(nodeManifest, {
               encoding: 'utf-8',
             })
           ) as
@@ -85,7 +90,9 @@ class DegoBuild {
 
           if (!manifest) throw new Error('No manifest file found!')
 
-          const hasRootCSS = fs.existsSync('./out/node/ssg.css')
+          const ssgCSSPath = path.resolve(nodeOutputPath, './ssg.css')
+
+          const hasRootCSS = fs.existsSync(ssgCSSPath)
 
           for (const filePath of allFilePaths) {
             const data = renderHtml(filePath.slice(0, -3).replace('\\', '/'))
@@ -107,17 +114,20 @@ class DegoBuild {
             )[0]
 
             if (!details) throw new Error('File not found in manifest!')
-            const hasCSS = fs.existsSync(`./out/node/${details.id}.css`)
+
+            const cssPath = path.resolve(nodeOutputPath, `./${details.id}.css`)
+
+            const hasCSS = fs.existsSync(cssPath)
 
             const metaAdded = addContentToHead(newHtml, [
               ...data.headElements,
               hasCSS
-                ? `<style>${fs.readFileSync(`./out/node/${details.id}.css`, {
+                ? `<style>${fs.readFileSync(cssPath, {
                     encoding: 'utf8',
                   })}</style>`
                 : '',
               hasRootCSS
-                ? `<style>${fs.readFileSync('./out/node/ssg.css', {
+                ? `<style>${fs.readFileSync(ssgCSSPath, {
                     encoding: 'utf8',
                   })}</style>`
                 : '',
@@ -155,14 +165,14 @@ class DegoBuild {
   }
 }
 
-function renderHtml(route = '') {
+function renderHtml(out: string, route = '') {
   const { execSync } = require('child_process')
   try {
     const regex =
       /--_DEGO_SSG_OUTPUT_START--\n(?<content>(?:.|\n)*)--_DEGO_SSG_OUTPUT_END--/g
 
     const result = utf8Decode(
-      execSync(`node ./out/node/ssg.bundle.js ${route}`)
+      execSync(`node ${out}/node/ssg.bundle.js ${route}`)
     )
 
     const match = regex.exec(result)
@@ -235,5 +245,3 @@ function getFilesRecursively(
 
   return filePaths
 }
-
-module.exports = DegoBuild

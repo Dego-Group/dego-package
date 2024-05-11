@@ -1,25 +1,41 @@
-import { Configuration } from '..'
+import path from 'path'
+import { z } from 'zod'
 
-export const DEFAULT_CONFIG = {
-  srcDir: './src',
-  pagesDir: './src/pages',
-  outDir: './',
-}
+const srcDefault = './src'
 
-export const DEFAULT_CONFIG_PATH = '/dego.config.js'
+const configSchema = z.object({
+  srcDir: z.string().default(srcDefault),
+  outDir: z.string().default('./.dego'),
+  pagesDir: z.string().default(`${srcDefault}/pages`),
+  root: z.string().default(`${srcDefault}/root.ts`),
+  htmlTemplate: z.string().optional(),
+})
 
-let path = DEFAULT_CONFIG_PATH
+export const DEFAULT_CONFIG_PATH = './dego.config.js'
 
-export async function getConfig(configPath?: string): Promise<Configuration> {
+let relativePath = DEFAULT_CONFIG_PATH
+
+export type DegoConfiguration = z.infer<typeof configSchema>
+
+export async function getConfig(
+  configPath?: string
+): Promise<DegoConfiguration> {
   try {
-    if (configPath) path = configPath
+    if (configPath) relativePath = configPath
 
-    // @ts-ignore
-    const userConfig = await import(`file://${process.cwd()}${path}`)
+    const userConfig = await import(
+      `file://${path.resolve(process.cwd(), relativePath)}`
+    )
 
-    const config = { ...DEFAULT_CONFIG, ...userConfig }
+    const parsed = configSchema.parse(userConfig.default)
 
-    return config
+    Object.entries(parsed).map(([key, value]) => {
+      if (typeof value === 'string') {
+        ;(parsed as any)[key] = path.resolve(process.cwd(), value)
+      }
+    })
+
+    return parsed
   } catch (error: any) {
     throw console.error(
       `Error loading config file. Path must be within project root. ${error.message}`

@@ -17,11 +17,18 @@
     "concurrently": "^8.2.2",
     "ts-loader": "^9.5.1",
     "typescript": "^5.4.5",
+    "css-loader": "^7.0.0",
+    "swc-loader": "^0.2.6",
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
+    "copy-webpack-plugin": "^12.0.2",
+    "css-minimizer-webpack-plugin": "^7.0.0",
     "html-minifier": "^4.0.0",
+    "mini-css-extract-plugin": "^2.9.0",
+    "tsconfig-paths-webpack-plugin": "^4.1.0",
     "webpack": "^5.91.0",
+    "webpack-dev-server": "^5.0.4",
     "yargs": "^17.7.2",
     "zod": "^3.23.8"
   }
