@@ -7,10 +7,11 @@ import webpack from 'webpack'
 
 /**
  * [Webpack Documentation (Node Interface)](https://webpack.js.org/api/node/)
+ * [Webpack Dev Server Documentation](https://webpack.js.org/api/webpack-dev-server/#start)
  */
 export function setupBuild(config: DegoConfiguration, devServer = false) {
   console.log(`Building...`)
-  const ssgWebpackInstance = webpack(ssgWebpackConfig(config))
+  const ssgWebpackInstance = webpack(ssgWebpackConfig(config, !devServer))
   ssgWebpackInstance.run((err, stats) => {
     if (hasErrors(err, stats)) return
     console.log('SSG pre-build complete.')
@@ -22,7 +23,7 @@ export function setupBuild(config: DegoConfiguration, devServer = false) {
         )
       }
 
-      const webpackInstance = webpack(getWebpackConfig(config))
+      const webpackInstance = webpack(getWebpackConfig(config, !devServer))
       webpackInstance.run((err, stats) => {
         if (hasErrors(err, stats)) return
         console.log('Build complete!')

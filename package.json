@@ -1,6 +1,6 @@
 {
   "name": "dego",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "bin": "./dist/typescript/bin/index.mjs",
   "type": "commonjs",
   "main": "./dist/webpack/dego/index.js",

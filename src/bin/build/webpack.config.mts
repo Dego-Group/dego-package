@@ -5,7 +5,7 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin'
 import { Configuration } from 'webpack'
 import { DegoConfiguration } from '../config.mjs'
-import { SWCOptions } from './swc.config.mjs'
+import { SWCOptions, SWCOptionsDev } from './swc.config.mjs'
 import { existsSync } from 'fs'
 
 let hasPublic: boolean | undefined = undefined
@@ -38,7 +38,10 @@ export function getPlugins(
   return plugins
 }
 
-export default function getWebpackConfig(config: DegoConfiguration) {
+export default function getWebpackConfig(
+  config: DegoConfiguration,
+  production: boolean
+) {
   const out = path.resolve(config.outDir, './web')
   return {
     target: 'web',
@@ -61,7 +64,7 @@ export default function getWebpackConfig(config: DegoConfiguration) {
           exclude: /(node_modules)/,
           use: {
             loader: 'swc-loader',
-            options: SWCOptions,
+            options: production ? SWCOptions : SWCOptionsDev,
           },
         },
         {
@@ -78,7 +81,7 @@ export default function getWebpackConfig(config: DegoConfiguration) {
       ],
     },
     plugins: getPlugins(out, config, false),
-    mode: 'production',
+    mode: production ? 'production' : 'development',
     watchOptions: {
       poll: 1000,
     },
