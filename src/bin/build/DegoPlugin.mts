@@ -4,6 +4,7 @@ import fs from 'fs'
 import path from 'path'
 import minifier from 'html-minifier'
 import { z } from 'zod'
+import { execSync } from 'child_process'
 const minify = minifier.minify
 
 // schema for options object
@@ -29,6 +30,9 @@ export default class DegoBuild {
     const { webpack } = compiler
     const { Compilation } = webpack
     const { RawSource } = webpack.sources
+    const defaultHTMLTemplatePath =
+      process.argv[1].split('\\').slice(0, -4).join('\\') +
+      '\\defaultTemplate.html'
 
     const nodeOutputPath = path.resolve(this.options.out, './node')
     if (!fs.existsSync(nodeOutputPath)) {
@@ -64,8 +68,7 @@ export default class DegoBuild {
         },
         () => {
           const templateHTML = fs.readFileSync(
-            this.options.htmlTemplateOverrideFile ??
-              path.resolve(__dirname, '../../../defaultTemplate.html'), //TODO path based on config
+            this.options.htmlTemplateOverrideFile ?? defaultHTMLTemplatePath,
             'utf-8'
           )
 
@@ -95,7 +98,10 @@ export default class DegoBuild {
           const hasRootCSS = fs.existsSync(ssgCSSPath)
 
           for (const filePath of allFilePaths) {
-            const data = renderHtml(filePath.slice(0, -3).replace('\\', '/'))
+            const data = renderHtml(
+              nodeOutputPath,
+              filePath.slice(0, -3).replace('\\', '/')
+            )
 
             const newHtml = editInnerHtml(
               template,
@@ -166,13 +172,12 @@ export default class DegoBuild {
 }
 
 function renderHtml(out: string, route = '') {
-  const { execSync } = require('child_process')
   try {
     const regex =
       /--_DEGO_SSG_OUTPUT_START--\n(?<content>(?:.|\n)*)--_DEGO_SSG_OUTPUT_END--/g
 
     const result = utf8Decode(
-      execSync(`node ${out}/node/ssg.bundle.js ${route}`)
+      execSync(`node ${path.resolve(out, './ssg.bundle.js')} ${route}`)
     )
 
     const match = regex.exec(result)

@@ -6,6 +6,7 @@ const srcDefault = './src'
 const configSchema = z.object({
   srcDir: z.string().default(srcDefault),
   outDir: z.string().default('./.dego'),
+  publicDir: z.string().default('./public'),
   pagesDir: z.string().default(`${srcDefault}/pages`),
   root: z.string().default(`${srcDefault}/root.ts`),
   htmlTemplate: z.string().optional(),

@@ -6,6 +6,37 @@ import CssMinimizerPlugin from 'css-minimizer-webpack-plugin'
 import { Configuration } from 'webpack'
 import { DegoConfiguration } from '../config.mjs'
 import { SWCOptions } from './swc.config.mjs'
+import { existsSync } from 'fs'
+
+let hasPublic: boolean | undefined = undefined
+
+export function getPlugins(
+  out: string,
+  config: DegoConfiguration,
+  ssg: boolean
+) {
+  hasPublic = hasPublic === undefined ? existsSync(config.publicDir) : hasPublic
+
+  const plugins: any[] = [
+    new MiniCssExtractPlugin(),
+    new DegoBuild({
+      pagesFolder: config.pagesDir,
+      htmlTemplateOverrideFile: config.htmlTemplate,
+      out: config.outDir,
+      ssg,
+    }),
+  ]
+
+  if (hasPublic) {
+    plugins.push(
+      new CopyPlugin({
+        patterns: [{ from: config.publicDir, to: out }],
+      })
+    )
+  }
+
+  return plugins
+}
 
 export default function getWebpackConfig(config: DegoConfiguration) {
   const out = path.resolve(config.outDir, './web')
@@ -46,18 +77,7 @@ export default function getWebpackConfig(config: DegoConfiguration) {
         },
       ],
     },
-    plugins: [
-      new CopyPlugin({
-        patterns: [{ from: path.resolve(process.cwd(), './public'), to: out }],
-      }),
-      new MiniCssExtractPlugin(),
-      new DegoBuild({
-        pagesFolder: config.pagesDir,
-        htmlTemplateOverrideFile: config.htmlTemplate,
-        out: config.outDir,
-        ssg: false,
-      }),
-    ],
+    plugins: getPlugins(out, config, false),
     mode: 'production',
     watchOptions: {
       poll: 1000,
@@ -65,7 +85,7 @@ export default function getWebpackConfig(config: DegoConfiguration) {
     devServer: {
       hot: true,
       port: 3000,
-      watchFiles: ['public/**/*', `${config.srcDir}/**/*`],
+      watchFiles: [`${config.publicDir}/**/*`, `${config.srcDir}/**/*`],
     },
     optimization: {
       minimizer: ['...', new CssMinimizerPlugin()],
