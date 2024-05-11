@@ -42,6 +42,10 @@ export default function getWebpackConfig(
   config: DegoConfiguration,
   production: boolean
 ) {
+  const node_modules = path.resolve(
+    process.argv[1].split('\\').slice(0, -4).join('\\'),
+    './node_modules'
+  )
   const out = path.resolve(config.outDir, './web')
   return {
     target: 'web',
@@ -54,7 +58,6 @@ export default function getWebpackConfig(
       path: out,
     },
     resolve: {
-      modules: [config.srcDir, 'node_modules'],
       extensions: ['', '.ts', '.js'],
     },
     module: {
@@ -63,7 +66,7 @@ export default function getWebpackConfig(
           test: /\.m?ts$/,
           exclude: /(node_modules)/,
           use: {
-            loader: 'swc-loader',
+            loader: path.resolve(node_modules, 'swc-loader'),
             options: production ? SWCOptions : SWCOptionsDev,
           },
         },
@@ -74,7 +77,7 @@ export default function getWebpackConfig(
               loader: MiniCssExtractPlugin.loader,
             },
             {
-              loader: 'css-loader',
+              loader: path.resolve(node_modules, 'css-loader'),
             },
           ],
         },
