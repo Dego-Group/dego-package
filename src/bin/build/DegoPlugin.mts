@@ -5,11 +5,13 @@ import path from 'path'
 import minifier from 'html-minifier'
 import { z } from 'zod'
 import { execSync } from 'child_process'
+import { degoPackageRootPath } from '../helpers.mjs'
 const minify = minifier.minify
 
 // schema for options object
 const schema = z.object({
   pagesFolder: z.string(),
+  srcFolder: z.string(),
   out: z.string(),
   htmlTemplateOverrideFile: z.string().optional(),
   ssg: z.boolean().default(false),
@@ -31,8 +33,7 @@ export default class DegoBuild {
     const { Compilation } = webpack
     const { RawSource } = webpack.sources
     const defaultHTMLTemplatePath =
-      process.argv[1].split('\\').slice(0, -4).join('\\') +
-      '\\defaultTemplate.html'
+      degoPackageRootPath + '\\defaultTemplate.html'
 
     const nodeOutputPath = path.resolve(this.options.out, './node')
     if (!fs.existsSync(nodeOutputPath)) {
@@ -51,7 +52,15 @@ export default class DegoBuild {
         .map(m => {
           if (!m.origins) return
           const firstOrigin = m.origins[0]
-          return firstOrigin ? { location: firstOrigin.loc, id: m.id } : null
+          return firstOrigin
+            ? {
+                location: path.resolve(
+                  this.options.srcFolder,
+                  firstOrigin.loc!
+                ),
+                id: m.id,
+              }
+            : null
         })
         .filter(item => item !== null) // Filter out null entries
 
@@ -109,17 +118,23 @@ export default class DegoBuild {
               data.stringHtml
             )
 
-            const formattedPath = `./pages${`/${filePath}`
-              .replace('\\', '/')
-              .replace('.ts', '')
-              .replace('/index', '')
-              .trim()}`
+            const formattedPath = path.resolve(
+              this.options.pagesFolder,
+              `./${filePath}`
+                .replaceAll('\\', '/')
+                .replace('.ts', '')
+                .replace('/index', '')
+                .trim()
+            )
 
             const details = manifest.filter(
               v => v.location === formattedPath
             )[0]
 
-            if (!details) throw new Error('File not found in manifest!')
+            if (!details)
+              throw new Error(
+                'File not found in manifest! Path: ' + formattedPath
+              )
 
             const cssPath = path.resolve(nodeOutputPath, `./${details.id}.css`)
 

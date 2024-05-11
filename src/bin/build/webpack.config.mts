@@ -4,9 +4,11 @@ import CopyPlugin from 'copy-webpack-plugin'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin'
 import { Configuration } from 'webpack'
+import webpack from 'webpack'
 import { DegoConfiguration } from '../config.mjs'
 import { SWCOptions, SWCOptionsDev } from './swc.config.mjs'
 import { existsSync } from 'fs'
+import { degoPackageRootPath } from '../helpers.mjs'
 
 let hasPublic: boolean | undefined = undefined
 
@@ -23,7 +25,11 @@ export function getPlugins(
       pagesFolder: config.pagesDir,
       htmlTemplateOverrideFile: config.htmlTemplate,
       out: config.outDir,
+      srcFolder: config.srcDir,
       ssg,
+    }),
+    new webpack.DefinePlugin({
+      PAGES_DIR: JSON.stringify(config.pagesDir.replaceAll('\\', '/')),
     }),
   ]
 
@@ -42,10 +48,7 @@ export default function getWebpackConfig(
   config: DegoConfiguration,
   production: boolean
 ) {
-  const node_modules = path.resolve(
-    process.argv[1].split('\\').slice(0, -4).join('\\'),
-    './node_modules'
-  )
+  const node_modules = path.resolve(degoPackageRootPath, './node_modules')
   const out = path.resolve(config.outDir, './web')
   return {
     target: 'web',

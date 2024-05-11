@@ -18,11 +18,13 @@ function evalCurrentPath(preRenderRoute?: string) {
   return window.location.pathname
 }
 
-const importPage = async (route?: string) =>
-  await import(
+const importPage = async (route?: string) => {
+  console.log(PAGES_DIR)
+  return await import(
     /* webpackIgnore: true */
-    `D:/programming/linkme/dego-demo/src/pages${evalCurrentPath(route)}`
+    `${PAGES_DIR}${evalCurrentPath(route)}`
   )
+}
 
 export async function getPageJS(
   route: string
