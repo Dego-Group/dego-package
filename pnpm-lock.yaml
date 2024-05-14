@@ -14,6 +14,9 @@ importers:
       css-minimizer-webpack-plugin:
         specifier: ^7.0.0
         version: 7.0.0(webpack@5.91.0(@swc/core@1.5.5)(webpack-cli@5.1.4(webpack-dev-server@5.0.4)(webpack@5.91.0)))
+      express:
+        specifier: ^4.19.2
+        version: 4.19.2
       html-minifier:
         specifier: ^4.0.0
         version: 4.0.0
@@ -39,6 +42,9 @@ importers:
         specifier: ^3.23.8
         version: 3.23.8
     devDependencies:
+      '@types/express':
+        specifier: ^4.17.21
+        version: 4.17.21
       '@types/html-minifier':
         specifier: ^4.0.5
         version: 4.0.5

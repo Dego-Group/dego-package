@@ -9,6 +9,7 @@ const configSchema = z.object({
   publicDir: z.string().default('./public'),
   pagesDir: z.string().default(`${srcDefault}/pages`),
   root: z.string().default(`${srcDefault}/root.ts`),
+  port: z.number().default(3000),
   htmlTemplate: z.string().optional(),
 })
 

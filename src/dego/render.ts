@@ -19,7 +19,6 @@ function evalCurrentPath(preRenderRoute?: string) {
 }
 
 const importPage = async (route?: string) => {
-  console.log(PAGES_DIR)
   return await import(
     /* webpackIgnore: true */
     `${PAGES_DIR}${evalCurrentPath(route)}`

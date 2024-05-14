@@ -4,8 +4,9 @@ import { DEFAULT_CONFIG_PATH, getConfig } from './config.mjs'
 
 import { getHelp } from './help.mjs'
 import { getVersion } from './version.mjs'
-import { setupBuild } from './build/index.mjs'
+import { setupBuild } from './build/build.mjs'
 import yargs from 'yargs'
+import { startServer } from './serve/serve.mjs'
 
 export const EXPECTED_COMMANDS = [
   {
@@ -21,6 +22,11 @@ export const EXPECTED_COMMANDS = [
   {
     command: 'build',
     explanation: 'Builds Dego based on your `dego.config.js` file.',
+  },
+  {
+    command: 'serve',
+    explanation:
+      'Runs the built Dego code located in your `outDir` (dego.config.js)',
   },
 ] as const
 
@@ -46,6 +52,10 @@ export const argv = yargs(process.argv.slice(2))
 const config = await getConfig(argv.config ?? DEFAULT_CONFIG_PATH)
 
 switch (argv._[0] as (typeof EXPECTED_COMMANDS)[number]['command']) {
+  case 'serve': {
+    startServer(config.port, config.outDir)
+    break
+  }
   case 'dev': {
     setupBuild(config, true)
     break

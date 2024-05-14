@@ -45,7 +45,7 @@ Dego.JS Alpha
 - [x] Allow navigation from a Dego ID to a Dego Component in the code. Then remove ID children.
 - [x] Put CSS inline in HTML so it does not need to do a request after initial page load
 - [ ] Memoize child components and only preform a re-render if the props change. Cannot really do this until `useMemo` is a thing.
-- [ ] When client-side routing it does not update the meta-date
+- [ ] When client-side routing it does not update the meta-data
 - [ ] The `useLayoutWatch` hook
 - [ ] The `useMemo` hook (will be like React's `useMemo` and `useCallback` hooks combined)
 - [ ] Minify Dego HTML in `app.bundle.js`

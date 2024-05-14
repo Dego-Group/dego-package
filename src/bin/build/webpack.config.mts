@@ -49,7 +49,7 @@ export default function getWebpackConfig(
   production: boolean
 ) {
   const node_modules = path.resolve(degoPackageRootPath, './node_modules')
-  const out = path.resolve(config.outDir, './web')
+  const out = path.resolve(config.outDir, './static')
   return {
     target: 'web',
     entry: {
@@ -61,7 +61,7 @@ export default function getWebpackConfig(
       path: out,
     },
     resolve: {
-      extensions: ['', '.ts', '.js'],
+      extensions: ['', '.ts', '.js', '.mts', '.mjs'],
     },
     module: {
       rules: [
