@@ -4,14 +4,16 @@ import getWebpackSSGConfig from './webpack.sgg.config.mjs'
 import getWebpackServerConfig from './webpack.server.config.mjs'
 import webpack from 'webpack'
 
-// import webpackConfig from './webpack.config.mjs'
+let webServerReady: 'NO' | 'READY' | 'LONG_LOAD' | 'DONE' = 'NO'
+const webServerLog = '\x1b[32m\nDego web server built!\x1b[0m'
 
 /**
  * [Webpack Documentation (Node Interface)](https://webpack.js.org/api/node/)
  * [Webpack Dev Server Documentation](https://webpack.js.org/api/webpack-dev-server/#start)
  */
 export function setupBuild(config: DegoConfiguration, devServer = false) {
-  console.log(`\nBuilding pre-render app and web server...\n`)
+  console.log('\n--------------')
+  console.log('\x1b[34mBuilding pre-render app and web server...\x1b[0m\n')
 
   // Web server compilation
   const serverWebpackInstance = webpack(
@@ -20,7 +22,12 @@ export function setupBuild(config: DegoConfiguration, devServer = false) {
 
   serverWebpackInstance.run((err, stats) => {
     if (hasErrors(err, stats)) return
-    console.log('Dego web server built!')
+
+    if (webServerReady === 'LONG_LOAD') {
+      console.log(webServerLog)
+    } else {
+      webServerReady = 'READY'
+    }
 
     serverWebpackInstance.close(err => {
       if (err) {
@@ -36,7 +43,12 @@ export function setupBuild(config: DegoConfiguration, devServer = false) {
 
   ssgWebpackInstance.run((err, stats) => {
     if (hasErrors(err, stats)) return
-    console.log('Dego pre-render app built!')
+    console.log('\x1b[32m\nDego pre-render app built!\x1b[0m')
+    if (webServerReady === 'READY') {
+      console.log(webServerLog)
+      webServerReady = 'DONE'
+    }
+    console.log('--------------\n')
 
     ssgWebpackInstance.close(err => {
       if (err) {
@@ -45,13 +57,27 @@ export function setupBuild(config: DegoConfiguration, devServer = false) {
         )
       }
 
-      console.log('\nBuilding web app...\n')
+      console.log('\n--------------')
+      console.log(
+        `\x1b[34mBuilding web app... ${
+          webServerReady === 'NO' ? 'web server still building...' : ''
+        }\x1b[0m\n`
+      )
 
       // Web/Static compilation
       const webpackInstance = webpack(getWebpackConfig(config, !devServer))
       webpackInstance.run((err, stats) => {
         if (hasErrors(err, stats)) return
-        console.log('Dego build complete!')
+
+        if (webServerReady === 'READY') {
+          console.log(webServerLog)
+        } else if (webServerReady === 'NO') {
+          webServerReady = 'LONG_LOAD'
+          console.log('\n')
+        }
+
+        console.log('\x1b[32mDego web app built!\x1b[0m')
+        console.log('--------------\n')
 
         ssgWebpackInstance.close(err => {
           if (err) {
@@ -76,6 +102,7 @@ function hasErrors(err: Error | null, stats: webpack.Stats | undefined) {
 
   if (!stats) {
     console.error('No stats object returned after webpack build!')
+    console.log('A Webpack error occurred!')
     return true
   }
 
@@ -95,7 +122,10 @@ function hasErrors(err: Error | null, stats: webpack.Stats | undefined) {
 
     info.warnings!.splice(ignoreWarningIndex, 1)
 
-    if (info.warnings!.length > 0) console.warn(info.warnings)
+    if (info.warnings!.length > 0) {
+      console.warn(info.warnings)
+      console.log('A Webpack warning occurred!')
+    }
 
     return false
   }

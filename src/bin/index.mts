@@ -7,6 +7,7 @@ import { getVersion } from './version.mjs'
 import { setupBuild } from './build/build.mjs'
 import yargs from 'yargs'
 import { startServer } from './serve/serve.mjs'
+import startDevServer from './serve/dev-serve.mjs'
 
 export const EXPECTED_COMMANDS = [
   {
@@ -57,7 +58,8 @@ switch (argv._[0] as (typeof EXPECTED_COMMANDS)[number]['command']) {
     break
   }
   case 'dev': {
-    setupBuild(config, true)
+    // setupBuild(config, true)
+    startDevServer(config)
     break
   }
   case 'version': {

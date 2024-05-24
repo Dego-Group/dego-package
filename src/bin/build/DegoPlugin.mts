@@ -35,7 +35,7 @@ export default class DegoBuild {
     const defaultHTMLTemplatePath =
       degoPackageRootPath + '\\defaultTemplate.html'
 
-    const nodeOutputPath = path.resolve(this.options.out, './node')
+    const nodeOutputPath = path.resolve(this.options.out, './prebuild')
     if (!fs.existsSync(nodeOutputPath)) {
       fs.mkdirSync(nodeOutputPath, { recursive: true })
     }

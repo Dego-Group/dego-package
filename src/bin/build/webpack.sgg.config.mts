@@ -7,7 +7,7 @@ export default function getWebpackSSGConfig(
   config: DegoConfiguration,
   production: boolean
 ) {
-  const out = path.resolve(config.outDir, './node')
+  const out = path.resolve(config.outDir, './prebuild')
   const normalConfig = getWebpackConfig(config, production)
   return {
     ...normalConfig,
