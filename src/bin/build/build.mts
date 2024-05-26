@@ -15,29 +15,26 @@ export function setupBuild(config: DegoConfiguration, devServer = false) {
   const ssgWebpackInstance = webpack(getWebpackSSGConfig(config, !devServer))
 
   if (devServer) {
-    console.log('\x1b[34mBuilding...\x1b[0m\n')
+    console.log('\x1b[34mBuilding...\x1b[0m')
 
     ssgWebpackInstance.watch({}, (err, stats) => {
-      if (hasErrors(err, stats)) {
+      if (hasErrors(err, stats, true)) {
         throw new Error('There has been a compilation error:', err!)
       }
 
-      console.log(
-        '\x1b[34mSuccessfully built pre-render! Building app...\x1b[0m\n'
-      )
+      console.log('\n\x1b[34mPre-render built.\x1b[0m')
     })
 
     // Web/Static compilation
     const webpackInstance = webpack(getWebpackConfig(config, !devServer))
 
     webpackInstance.watch({}, (err, stats) => {
-      if (hasErrors(err, stats)) {
+      if (hasErrors(err, stats, true)) {
         throw new Error('There has been a compilation error:', err!)
       }
 
-      console.log(
-        '\x1b[34mSuccessfully built app! Waiting for changes...\x1b[0m\n'
-      )
+      console.log('\x1b[34mApp built.\x1b[0m\n')
+      console.log('\x1b[32mWatching for changes...\x1b[0m\n')
     })
 
     return
@@ -120,7 +117,11 @@ export function setupBuild(config: DegoConfiguration, devServer = false) {
   })
 }
 
-function hasErrors(err: Error | null, stats: webpack.Stats | undefined) {
+function hasErrors(
+  err: Error | null,
+  stats: webpack.Stats | undefined,
+  devServer = false
+) {
   if (err) {
     console.error(err.stack || err)
     if ('details' in err) {
@@ -159,6 +160,6 @@ function hasErrors(err: Error | null, stats: webpack.Stats | undefined) {
     return false
   }
 
-  console.log(stats.compilation.assets)
+  if (!devServer) console.log(stats.compilation.assets)
   return false
 }
