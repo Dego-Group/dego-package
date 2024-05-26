@@ -1,6 +1,7 @@
 import express from 'express'
 import type { Express } from 'express'
 import { existsSync, promises, readFileSync } from 'fs'
+import { lookup } from 'mime-types'
 import { isAbsolute, relative, resolve } from 'path'
 
 export function getApp(
@@ -25,11 +26,18 @@ export function getApp(
       }
 
       if (req.url.indexOf('.') > -1) {
-        const stats = await promises.stat(basePath)
+        const exists = existsSync(basePath)
 
-        if (stats.isFile()) {
-          res.send(await promises.readFile(basePath))
-          return
+        if (exists) {
+          const stats = await promises.stat(basePath)
+
+          if (stats.isFile()) {
+            const contentType = lookup(basePath)
+            if (contentType) res.type(contentType)
+
+            res.send(await promises.readFile(basePath))
+            return
+          }
         }
 
         res.status(404)
@@ -72,7 +80,7 @@ export function getApp(
   return app
 }
 
-export function startServer(port: number, outDir = '../static') {
+export function startServer(port: number, outDir = resolve(__filename, '../')) {
   const app = getApp(outDir)
 
   const server = app.listen(port, () => {

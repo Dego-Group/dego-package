@@ -91,11 +91,6 @@ export default function getWebpackConfig(
     watchOptions: {
       poll: 1000,
     },
-    devServer: {
-      hot: true,
-      port: 3000,
-      watchFiles: [`${config.publicDir}/**/*`, `${config.srcDir}/**/*`],
-    },
     optimization: {
       minimizer: ['...', new CssMinimizerPlugin()],
       splitChunks: {
@@ -120,5 +115,5 @@ export default function getWebpackConfig(
         },
       },
     },
-  } satisfies Configuration & { devServer: any }
+  } satisfies Configuration
 }

@@ -10,7 +10,7 @@ export default function getWebpackServerConfig(
   production: boolean
 ) {
   const node_modules = path.resolve(degoPackageRootPath, './node_modules')
-  const out = path.resolve(config.outDir, './server')
+  const out = path.resolve(config.outDir, './')
   const normalConfig = getWebpackConfig(config, production)
 
   return {
@@ -24,11 +24,11 @@ export default function getWebpackServerConfig(
     },
     output: { filename: '[name].js', path: out },
     plugins: undefined,
-    devServer: undefined,
     externals: [nodeExternals()],
+    optimization: { minimize: false },
     resolve: {
       ...normalConfig.resolve,
       modules: [node_modules, 'node_modules'],
     },
-  } satisfies Configuration & { devServer: any }
+  } satisfies Configuration
 }

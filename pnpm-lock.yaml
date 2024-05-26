@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@types/mime-types':
+        specifier: ^2.1.4
+        version: 2.1.4
       copy-webpack-plugin:
         specifier: ^12.0.2
         version: 12.0.2(webpack@5.91.0(@swc/core@1.5.5)(webpack-cli@5.1.4(webpack-dev-server@5.0.4)(webpack@5.91.0)))
@@ -23,6 +26,9 @@ importers:
       livereload:
         specifier: ^0.9.3
         version: 0.9.3
+      mime-types:
+        specifier: ^2.1.35
+        version: 2.1.35
       mini-css-extract-plugin:
         specifier: ^2.9.0
         version: 2.9.0(webpack@5.91.0(@swc/core@1.5.5)(webpack-cli@5.1.4(webpack-dev-server@5.0.4)(webpack@5.91.0)))
@@ -307,6 +313,9 @@ packages:
 
   '@types/livereload@0.9.5':
     resolution: {integrity: sha512-2RXcRKdivPmn67pwjytvHoRv46AeXaLYVUWA0zkel1XSAOH5i71G0KfUdE5u3g80T155gR3Fo3ilVaqparLsVA==}
+
+  '@types/mime-types@2.1.4':
+    resolution: {integrity: sha512-lfU4b34HOri+kAY5UheuFMWPDOI+OPceBSHZKp69gEyTL/mmJ4cnU6Y/rlme3UL3GyOn6Y42hyIEw0/q8sWx5w==}
 
   '@types/mime@1.3.5':
     resolution: {integrity: sha512-/pyBZWSLD2n0dcHE3hq8s8ZvcETHtEuF+3E7XVt0Ig2nvsVQXdghHVcEkIWjy9A0wKfTn97a/PSDYohKIlnP/w==}
@@ -2421,6 +2430,8 @@ snapshots:
   '@types/livereload@0.9.5':
     dependencies:
       '@types/ws': 8.5.10
+
+  '@types/mime-types@2.1.4': {}
 
   '@types/mime@1.3.5': {}
 

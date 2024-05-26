@@ -17,6 +17,5 @@ export default function getWebpackSSGConfig(
     },
     output: { ...normalConfig.output, path: out },
     plugins: getPlugins(out, config, true),
-    devServer: undefined,
-  } satisfies Configuration & { devServer: any }
+  } satisfies Configuration
 }

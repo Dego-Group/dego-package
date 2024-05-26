@@ -58,7 +58,7 @@ switch (argv._[0] as (typeof EXPECTED_COMMANDS)[number]['command']) {
     break
   }
   case 'dev': {
-    // setupBuild(config, true)
+    setupBuild(config, true)
     startDevServer(config)
     break
   }

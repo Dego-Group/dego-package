@@ -9,9 +9,40 @@ const webServerLog = '\x1b[32m\nDego web server built!\x1b[0m'
 
 /**
  * [Webpack Documentation (Node Interface)](https://webpack.js.org/api/node/)
- * [Webpack Dev Server Documentation](https://webpack.js.org/api/webpack-dev-server/#start)
  */
 export function setupBuild(config: DegoConfiguration, devServer = false) {
+  // Node/SSG compilation
+  const ssgWebpackInstance = webpack(getWebpackSSGConfig(config, !devServer))
+
+  if (devServer) {
+    console.log('\x1b[34mBuilding...\x1b[0m\n')
+
+    ssgWebpackInstance.watch({}, (err, stats) => {
+      if (hasErrors(err, stats)) {
+        throw new Error('There has been a compilation error:', err!)
+      }
+
+      console.log(
+        '\x1b[34mSuccessfully built pre-render! Building app...\x1b[0m\n'
+      )
+    })
+
+    // Web/Static compilation
+    const webpackInstance = webpack(getWebpackConfig(config, !devServer))
+
+    webpackInstance.watch({}, (err, stats) => {
+      if (hasErrors(err, stats)) {
+        throw new Error('There has been a compilation error:', err!)
+      }
+
+      console.log(
+        '\x1b[34mSuccessfully built app! Waiting for changes...\x1b[0m\n'
+      )
+    })
+
+    return
+  }
+
   console.log('\n--------------')
   console.log('\x1b[34mBuilding pre-render app and web server...\x1b[0m\n')
 
@@ -38,9 +69,7 @@ export function setupBuild(config: DegoConfiguration, devServer = false) {
     })
   })
 
-  // Node/SSG compilation
-  const ssgWebpackInstance = webpack(getWebpackSSGConfig(config, !devServer))
-
+  // Node/SSG compilation continued
   ssgWebpackInstance.run((err, stats) => {
     if (hasErrors(err, stats)) return
     console.log('\x1b[32m\nDego pre-render app built!\x1b[0m')
