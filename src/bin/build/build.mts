@@ -17,24 +17,37 @@ export function setupBuild(config: DegoConfiguration, devServer = false) {
   if (devServer) {
     console.log('\x1b[34mBuilding...\x1b[0m')
 
-    ssgWebpackInstance.watch({}, (err, stats) => {
-      if (hasErrors(err, stats, true)) {
-        throw new Error('There has been a compilation error:', err!)
-      }
+    ssgWebpackInstance.run((err, stats) => {
+      if (hasErrors(err, stats, true)) return
 
-      console.log('\n\x1b[34mPre-render built.\x1b[0m')
-    })
+      ssgWebpackInstance.close(err => {
+        if (err) {
+          return console.error(
+            'There has been an issue closing the Webpack Instance:' + err
+          )
+        }
 
-    // Web/Static compilation
-    const webpackInstance = webpack(getWebpackConfig(config, !devServer))
+        console.log('\n\x1b[34mDev initial setup complete.\x1b[0m')
 
-    webpackInstance.watch({}, (err, stats) => {
-      if (hasErrors(err, stats, true)) {
-        throw new Error('There has been a compilation error:', err!)
-      }
+        ssgWebpackInstance.watch({}, (err, stats) => {
+          if (hasErrors(err, stats, true)) return
 
-      console.log('\x1b[34mApp built.\x1b[0m\n')
-      console.log('\x1b[32mWatching for changes...\x1b[0m\n')
+          console.log('\n\x1b[34mPre-render built.\x1b[0m')
+        })
+
+        // Web/Static compilation
+        const webpackInstance = webpack(getWebpackConfig(config, !devServer))
+
+        webpackInstance.watch({}, (err, stats) => {
+          if (hasErrors(err, stats, true)) {
+            console.log('\x1b[32mWatching for changes...\x1b[0m\n')
+            return
+          }
+
+          console.log('\x1b[34mApp built.\x1b[0m\n')
+          console.log('\x1b[32mWatching for changes...\x1b[0m\n')
+        })
+      })
     })
 
     return
