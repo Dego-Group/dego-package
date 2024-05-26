@@ -56,8 +56,8 @@ export default function getWebpackConfig(
       app: config.root,
     },
     output: {
-      filename: '[name].bundle.js',
-      chunkFilename: '[id].bundle.js',
+      filename: 'a.js',
+      chunkFilename: '[id].js',
       path: out,
     },
     resolve: {

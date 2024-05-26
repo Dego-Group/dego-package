@@ -81,10 +81,7 @@ export default class DegoBuild {
             'utf-8'
           )
 
-          const template = templateHTML.replace(
-            /\$\{script\}/g,
-            '/app.bundle.js'
-          )
+          const template = templateHTML.replace(/\$\{script\}/g, '/a.js')
 
           const basePath = this.options.pagesFolder
           const allFilePaths = getFilesRecursively(basePath)

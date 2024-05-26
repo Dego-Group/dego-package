@@ -15,7 +15,11 @@ export default function getWebpackSSGConfig(
     entry: {
       ssg: config.root,
     },
-    output: { ...normalConfig.output, path: out },
+    output: {
+      filename: '[name].bundle.js',
+      chunkFilename: '[id].bundle.js',
+      path: out,
+    },
     plugins: getPlugins(out, config, true),
   } satisfies Configuration
 }
