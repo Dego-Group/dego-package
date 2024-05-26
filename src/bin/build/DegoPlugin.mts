@@ -128,10 +128,10 @@ export default class DegoBuild {
               v => v.location === formattedPath
             )[0]
 
-            if (!details)
-              throw new Error(
-                'File not found in manifest! Path: ' + formattedPath
-              )
+            if (!details) {
+              console.warn('File not found in manifest! Path: ' + formattedPath)
+              continue
+            }
 
             const cssPath = path.resolve(nodeOutputPath, `./${details.id}.css`)
 

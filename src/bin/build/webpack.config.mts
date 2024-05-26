@@ -7,7 +7,7 @@ import { Configuration } from 'webpack'
 import webpack from 'webpack'
 import { DegoConfiguration } from '../config.mjs'
 import { SWCOptions, SWCOptionsDev } from './swc.config.mjs'
-import { existsSync } from 'fs'
+import { existsSync, statfsSync } from 'fs'
 import { degoPackageRootPath } from '../helpers.mjs'
 
 let hasPublic: boolean | undefined = undefined
@@ -17,7 +17,10 @@ export function getPlugins(
   config: DegoConfiguration,
   ssg: boolean
 ) {
-  hasPublic = hasPublic === undefined ? existsSync(config.publicDir) : hasPublic
+  hasPublic =
+    hasPublic === undefined
+      ? existsSync(config.publicDir) && statfsSync(config.publicDir).files > 0
+      : hasPublic
 
   const plugins: any[] = [
     new MiniCssExtractPlugin(),

@@ -29,24 +29,54 @@ export function setupBuild(config: DegoConfiguration, devServer = false) {
 
         console.log('\n\x1b[34mDev initial setup complete.\x1b[0m')
 
-        ssgWebpackInstance.watch({}, (err, stats) => {
-          if (hasErrors(err, stats, true)) return
+        function watchSSG() {
+          try {
+            ssgWebpackInstance.watch({}, (err, stats) => {
+              if (hasErrors(err, stats, true)) {
+                console.log(
+                  '\x1b[32mError occurred when building pre-render.\x1b[0m\n'
+                )
+                return
+              }
 
-          console.log('\n\x1b[34mPre-render built.\x1b[0m')
-        })
-
-        // Web/Static compilation
-        const webpackInstance = webpack(getWebpackConfig(config, !devServer))
-
-        webpackInstance.watch({}, (err, stats) => {
-          if (hasErrors(err, stats, true)) {
-            console.log('\x1b[32mWatching for changes...\x1b[0m\n')
-            return
+              console.log('\n\x1b[34mPre-render built.\x1b[0m')
+            })
+          } catch (err) {
+            console.error(
+              'Critical error occurred, restarting pre-build watch.'
+            )
+            watchSSG()
           }
+        }
 
-          console.log('\x1b[34mApp built.\x1b[0m\n')
-          console.log('\x1b[32mWatching for changes...\x1b[0m\n')
-        })
+        watchSSG()
+
+        function watchApp() {
+          try {
+            // Web/Static compilation
+            const webpackInstance = webpack(
+              getWebpackConfig(config, !devServer)
+            )
+
+            webpackInstance.watch({}, (err, stats) => {
+              if (hasErrors(err, stats, true)) {
+                console.log(
+                  '\x1b[32mError occurred when building app.\x1b[0m\n'
+                )
+                console.log('\x1b[32mWatching for changes...\x1b[0m\n')
+                return
+              }
+
+              console.log('\x1b[34mApp built.\x1b[0m\n')
+              console.log('\x1b[32mWatching for changes...\x1b[0m\n')
+            })
+          } catch {
+            console.error('Critical error occurred, restarting app watch.')
+            watchApp()
+          }
+        }
+
+        watchApp()
       })
     })
 
