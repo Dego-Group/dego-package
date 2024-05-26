@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
-    "outDir": "./dist/typescript",
+    "outDir": "./out",
     "rootDir": "./src",
     "strict": true,
     "esModuleInterop": true,
@@ -11,9 +11,7 @@
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "node",
     "declaration": true,
-    "isolatedModules": true,
-    "declarationDir": "./types"
-  },
-  "exclude": ["./default-project"],
-  "include": ["./src"]
+    "emitDeclarationOnly": true,
+    "isolatedModules": true
+  }
 }

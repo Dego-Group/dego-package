@@ -1,0 +1,29 @@
+.wrapper {
+  width: 100%;
+  padding: 1rem 20%;
+  background-color: white;
+  color: black;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+
+  margin-bottom: 1rem;
+}
+
+.wrapper nav {
+  display: flex;
+  gap: 1rem;
+}
+
+.wrapper nav a,
+.navItem {
+  color: black;
+  text-decoration: none;
+  display: block;
+
+  background-color: var(--dego-blue);
+  padding: 0.5rem 0.7rem;
+  border-radius: 5px;
+}

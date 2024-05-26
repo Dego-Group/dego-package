@@ -1,5 +1,6 @@
 import path from 'path'
 import { z } from 'zod'
+import { BackgroundColor, color } from './helpers.mjs'
 
 const srcDefault = './src'
 const publicDefault = './public'
@@ -67,25 +68,29 @@ export type DegoConfiguration = z.infer<typeof configSchema> & ConfigOptions
 export async function getConfig(
   configPath?: string
 ): Promise<DegoConfiguration> {
-  try {
-    if (configPath) relativePath = configPath
+  if (configPath) relativePath = configPath
 
-    const userConfig = await import(
+  let userConfig = { default: {} }
+
+  try {
+    userConfig = await import(
       `file://${path.resolve(process.cwd(), relativePath)}`
     )
-
-    const parsed = configSchema.parse(userConfig.default)
-
-    Object.entries(parsed).map(([key, value]) => {
-      if (typeof value === 'string') {
-        ;(parsed as any)[key] = path.resolve(process.cwd(), value)
-      }
-    })
-
-    return parsed
-  } catch (error: any) {
-    throw console.error(
-      `Error loading config file. Path must be within project root. ${error.message}`
+  } catch {
+    console.warn(
+      color(
+        'No Dego configuration file found, using defaults.',
+        BackgroundColor.Yellow
+      )
     )
   }
+
+  const parsed = configSchema.parse(userConfig.default)
+
+  Object.entries(parsed).map(([key, value]) => {
+    if (typeof value === 'string') {
+      ;(parsed as any)[key] = path.resolve(process.cwd(), value)
+    }
+  })
+  return parsed
 }

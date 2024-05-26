@@ -8,6 +8,7 @@ import { setupBuild } from './build/build.mjs'
 import yargs from 'yargs'
 import { startServer } from './serve/serve.mjs'
 import startDevServer from './serve/dev-serve.mjs'
+import { create } from './create/create.mjs'
 
 export const EXPECTED_COMMANDS = [
   {
@@ -29,6 +30,11 @@ export const EXPECTED_COMMANDS = [
     explanation:
       'Runs the built Dego code located in your `outDir` (dego.config.js)',
   },
+  {
+    command: 'create',
+    explanation:
+      'Creates a new Dego project, automatically generates required and recommended files.',
+  },
 ] as const
 
 export const OPTIONS = {
@@ -41,6 +47,13 @@ export const OPTIONS = {
     type: 'boolean',
     default: false,
     description: 'Shows all valid commands and flags along with their uses.',
+  },
+  force: {
+    type: 'boolean',
+    default: false,
+    alias: ['f'],
+    description:
+      'Attempt to force a command, only specific commands support this.',
   },
 } as const
 
@@ -68,6 +81,10 @@ switch (argv._[0] as (typeof EXPECTED_COMMANDS)[number]['command']) {
   }
   case 'build': {
     setupBuild(config)
+    break
+  }
+  case 'create': {
+    create(argv.force)
     break
   }
   default: {

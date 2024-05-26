@@ -7,7 +7,7 @@ import { Configuration } from 'webpack'
 import webpack from 'webpack'
 import { DegoConfiguration } from '../config.mjs'
 import { SWCOptions, SWCOptionsDev } from './swc.config.mjs'
-import { existsSync, statfsSync } from 'fs'
+import { existsSync, readdirSync } from 'fs'
 import { degoPackageRootPath } from '../helpers.mjs'
 
 let hasPublic: boolean | undefined = undefined
@@ -19,7 +19,7 @@ export function getPlugins(
 ) {
   hasPublic =
     hasPublic === undefined
-      ? existsSync(config.publicDir) && statfsSync(config.publicDir).files > 0
+      ? existsSync(config.publicDir) && readdirSync(config.publicDir).length > 0
       : hasPublic
 
   const plugins: any[] = [

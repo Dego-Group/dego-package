@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "dev": "dego dev",
+    "build": "dego build",
+    "serve": "dego serve"
+  },
+  "dependencies": {
+    "dego": "link:..\\dego-package"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
+}
