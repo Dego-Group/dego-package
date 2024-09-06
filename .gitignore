@@ -124,3 +124,4 @@ Thumbs.db
 !.vscode
 !.swcrc
 !.prettierrc
+!.npmignore
