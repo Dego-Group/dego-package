@@ -9,7 +9,7 @@ importers:
   .:
     dependencies:
       '@swc/core':
-        specifier: ^1.7.23
+        specifier: ^1.2.147
         version: 1.7.23
       copy-webpack-plugin:
         specifier: ^12.0.2

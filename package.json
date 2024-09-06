@@ -24,7 +24,7 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
-    "@swc/core": "^1.7.23",
+    "@swc/core": "^1.2.147",
     "copy-webpack-plugin": "^12.0.2",
     "css-loader": "^7.0.0",
     "css-minimizer-webpack-plugin": "^7.0.0",
