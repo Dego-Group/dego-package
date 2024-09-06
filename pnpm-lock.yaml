@@ -8,12 +8,12 @@ importers:
 
   .:
     dependencies:
-      '@types/mime-types':
-        specifier: ^2.1.4
-        version: 2.1.4
       copy-webpack-plugin:
         specifier: ^12.0.2
         version: 12.0.2(webpack@5.91.0(@swc/core@1.5.5)(webpack-cli@5.1.4))
+      css-loader:
+        specifier: ^7.0.0
+        version: 7.1.1(webpack@5.91.0(@swc/core@1.5.5)(webpack-cli@5.1.4))
       css-minimizer-webpack-plugin:
         specifier: ^7.0.0
         version: 7.0.0(webpack@5.91.0(@swc/core@1.5.5)(webpack-cli@5.1.4))
@@ -35,9 +35,18 @@ importers:
       raw-loader:
         specifier: ^4.0.2
         version: 4.0.2(webpack@5.91.0(@swc/core@1.5.5)(webpack-cli@5.1.4))
+      swc-loader:
+        specifier: ^0.2.6
+        version: 0.2.6(@swc/core@1.5.5)(webpack@5.91.0(@swc/core@1.5.5)(webpack-cli@5.1.4))
+      ts-loader:
+        specifier: ^9.5.1
+        version: 9.5.1(typescript@5.4.5)(webpack@5.91.0(@swc/core@1.5.5)(webpack-cli@5.1.4))
       tsconfig-paths-webpack-plugin:
         specifier: ^4.1.0
         version: 4.1.0
+      typescript:
+        specifier: ^5.4.5
+        version: 5.4.5
       webpack:
         specifier: ^5.91.0
         version: 5.91.0(@swc/core@1.5.5)(webpack-cli@5.1.4)
@@ -63,6 +72,9 @@ importers:
       '@types/livereload':
         specifier: ^0.9.5
         version: 0.9.5
+      '@types/mime-types':
+        specifier: ^2.1.4
+        version: 2.1.4
       '@types/node':
         specifier: ^20.12.7
         version: 20.12.7
@@ -78,18 +90,6 @@ importers:
       concurrently:
         specifier: ^8.2.2
         version: 8.2.2
-      css-loader:
-        specifier: ^7.0.0
-        version: 7.1.1(webpack@5.91.0(@swc/core@1.5.5)(webpack-cli@5.1.4))
-      swc-loader:
-        specifier: ^0.2.6
-        version: 0.2.6(@swc/core@1.5.5)(webpack@5.91.0(@swc/core@1.5.5)(webpack-cli@5.1.4))
-      ts-loader:
-        specifier: ^9.5.1
-        version: 9.5.1(typescript@5.4.5)(webpack@5.91.0(@swc/core@1.5.5)(webpack-cli@5.1.4))
-      typescript:
-        specifier: ^5.4.5
-        version: 5.4.5
       webpack-cli:
         specifier: ^5.1.4
         version: 5.1.4(webpack-dev-server@5.0.4)(webpack@5.91.0)
