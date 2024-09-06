@@ -1,6 +1,6 @@
 import './style.css'
 
-import { DegoComponentInvocation, e, html } from 'dego'
+import { DegoComponentInvocation, e, html } from 'dego-package'
 
 import { Header } from './components/header'
 

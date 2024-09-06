@@ -12,7 +12,7 @@ module.exports = {
     filename: '[name].js',
     path: out,
     library: {
-      name: 'dego',
+      name: 'dego-package',
       type: 'umd',
     },
   },

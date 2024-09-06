@@ -1,4 +1,4 @@
-import { Link, e, html } from 'dego'
+import { Link, e, html } from 'dego-package'
 
 import { wrapper } from './style.module.css'
 

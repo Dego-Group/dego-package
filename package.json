@@ -3,7 +3,7 @@
   "version": "0.6.17",
   "bin": "./dist/typescript/bin/index.mjs",
   "type": "commonjs",
-  "main": "./dist/webpack/dego-package/index.js",
+  "main": "./dist/webpack/dego/index.js",
   "types": "./types/index.d.ts",
   "scripts": {
     "dev": "rm -rf ./dist && concurrently \"tsc --watch --preserveWatchOutput\" \"webpack --watch\" -n \"BIN,LIB\" -c \"bgGreen,bgCyan\"",

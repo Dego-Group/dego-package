@@ -5,7 +5,7 @@ import {
   hearts,
   wrapper,
 } from './style.module.css'
-import { e, html, useValue, useWatch } from 'dego'
+import { e, html, useValue, useWatch } from 'dego-package'
 
 const EMOJI = '💖'
 const LS_KEY = 'hearts'
@@ -44,7 +44,8 @@ export default function Index() {
       <p>Click the heart bellow to give hearts to Dego.</p>
       <button
         class=${heartIcon}
-        onclick=${() => setNumberOfHearts((numberOfHearts ?? 0) + 1)}>
+        onclick=${() => setNumberOfHearts((numberOfHearts ?? 0) + 1)}
+      >
         ${EMOJI}
       </button>
 

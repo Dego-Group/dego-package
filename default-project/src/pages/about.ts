@@ -1,4 +1,4 @@
-import { e, html } from 'dego'
+import { e, html } from 'dego-package'
 
 import { rationalSection } from './style.module.css'
 

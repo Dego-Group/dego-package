@@ -1,4 +1,4 @@
 import Layout from './layout'
-import { render } from 'dego'
+import { render } from 'dego-package'
 
 await render('root', Layout)
