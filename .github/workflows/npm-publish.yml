@@ -2,7 +2,7 @@ name: Publish Dego to NPM
 
 on:
   release:
-    types: [published]
+    types: [created, published, released, prereleased]
 
 jobs:
   build:
