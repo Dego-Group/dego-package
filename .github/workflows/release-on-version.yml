@@ -18,3 +18,4 @@ jobs:
           pre-release: 'false'
           generate-release-note: 'true'
           tag-name: 'v$newVersion'
+          fail-on-unchanged-version: 'false'
