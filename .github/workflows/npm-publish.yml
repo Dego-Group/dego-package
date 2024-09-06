@@ -1,4 +1,4 @@
-name: Publish Dego
+name: Publish Dego to NPM
 
 on:
   release:
