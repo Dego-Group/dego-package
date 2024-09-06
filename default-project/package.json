@@ -1,11 +1,11 @@
 {
   "scripts": {
-    "dev": "dego dev",
-    "build": "dego build",
-    "serve": "dego serve"
+    "dev": "dego-package dev",
+    "build": "dego-package build",
+    "serve": "dego-package serve"
   },
   "dependencies": {
-    "dego-package": "^0.6.16"
+    "dego-package": "^${VERSION}"
   },
   "devDependencies": {
     "typescript": "^5.4.5"

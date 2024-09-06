@@ -1,4 +1,4 @@
-import { cp, readdirSync } from 'fs'
+import { cp, readdirSync, readFileSync, writeFileSync } from 'fs'
 import { Color, color, degoPackageRootPath } from '../helpers.mjs'
 import { resolve } from 'path'
 
@@ -33,6 +33,25 @@ export function create(isForced: boolean) {
 
       return
     }
+
+    const defaultProjectPackageJsonLocation = resolve(rootDir, './package.json')
+
+    const packageJsonFile = readFileSync(
+      defaultProjectPackageJsonLocation,
+      'utf-8'
+    )
+
+    const file = readFileSync(degoPackageRootPath + '\\package.json', {
+      encoding: 'utf8',
+    })
+    const packageInfo = JSON.parse(file)
+
+    const newPackageJsonFile = packageJsonFile.replace(
+      /\$\{version\}/g,
+      packageInfo.version
+    )
+
+    writeFileSync(defaultProjectPackageJsonLocation, newPackageJsonFile)
 
     console.log(
       color('Default project created!\n', Color.Green) +
