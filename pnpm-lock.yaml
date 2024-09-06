@@ -17,9 +17,6 @@ importers:
       css-minimizer-webpack-plugin:
         specifier: ^7.0.0
         version: 7.0.0(webpack@5.91.0(@swc/core@1.5.5)(webpack-cli@5.1.4))
-      dego-package:
-        specifier: ^0.6.1
-        version: 0.6.1(@swc/core@1.5.5)(webpack-cli@5.1.4(webpack-dev-server@5.0.4)(webpack@5.91.0))
       express:
         specifier: ^4.19.2
         version: 4.19.2
@@ -798,10 +795,6 @@ packages:
   define-lazy-prop@3.0.0:
     resolution: {integrity: sha512-N+MeXYoqr3pOgn8xfyRPREN7gHakLYjhsHhWGT3fWAiL4IkAt0iDw14QiiEm2bE30c5XX5q0FtAA3CK5f9/BUg==}
     engines: {node: '>=12'}
-
-  dego-package@0.6.1:
-    resolution: {integrity: sha512-xfwKJTMOy29An6f3OscZ6ADsEOOdz4IiLrDIEN84wYQIcjcKG5YKHN/MDmPPZqnYjhiJIhbwA4NqjOXYN5tPxw==}
-    hasBin: true
 
   depd@1.1.2:
     resolution: {integrity: sha512-7emPTl6Dpo6JRXOXjLRxck+FlLRX5847cLKEn00PLAgc3g2hTZZgr+e4c2v6QpSmLeFP3n5yUo7ft6avBK/5jQ==}
@@ -2983,38 +2976,6 @@ snapshots:
       gopd: 1.0.1
 
   define-lazy-prop@3.0.0: {}
-
-  dego-package@0.6.1(@swc/core@1.5.5)(webpack-cli@5.1.4(webpack-dev-server@5.0.4)(webpack@5.91.0)):
-    dependencies:
-      '@types/mime-types': 2.1.4
-      copy-webpack-plugin: 12.0.2(webpack@5.91.0(@swc/core@1.5.5)(webpack-cli@5.1.4))
-      css-minimizer-webpack-plugin: 7.0.0(webpack@5.91.0(@swc/core@1.5.5)(webpack-cli@5.1.4))
-      express: 4.19.2
-      html-minifier: 4.0.0
-      livereload: 0.9.3
-      mime-types: 2.1.35
-      mini-css-extract-plugin: 2.9.0(webpack@5.91.0(@swc/core@1.5.5)(webpack-cli@5.1.4))
-      raw-loader: 4.0.2(webpack@5.91.0(@swc/core@1.5.5)(webpack-cli@5.1.4))
-      tsconfig-paths-webpack-plugin: 4.1.0
-      webpack: 5.91.0(@swc/core@1.5.5)(webpack-cli@5.1.4)
-      webpack-dev-server: 5.0.4(webpack-cli@5.1.4)(webpack@5.91.0)
-      webpack-node-externals: 3.0.0
-      yargs: 17.7.2
-      zod: 3.23.8
-    transitivePeerDependencies:
-      - '@parcel/css'
-      - '@swc/core'
-      - '@swc/css'
-      - bufferutil
-      - clean-css
-      - csso
-      - debug
-      - esbuild
-      - lightningcss
-      - supports-color
-      - uglify-js
-      - utf-8-validate
-      - webpack-cli
 
   depd@1.1.2: {}
 
