@@ -20,7 +20,7 @@ jobs:
         run: pnpm install
       - name: Build package
         run: pnpm build
-      - name: Publish to npm
+      - name: Publish dego to npm
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
