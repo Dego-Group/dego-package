@@ -1,6 +1,6 @@
 {
-  "name": "@hexware/dego",
-  "version": "0.6.1",
+  "name": "dego-package",
+  "version": "0.6.3",
   "bin": "./dist/typescript/bin/index.mjs",
   "type": "commonjs",
   "main": "./dist/webpack/dego/index.js",
@@ -28,6 +28,7 @@
     "@types/mime-types": "^2.1.4",
     "copy-webpack-plugin": "^12.0.2",
     "css-minimizer-webpack-plugin": "^7.0.0",
+    "dego-package": "^0.6.1",
     "express": "^4.19.2",
     "html-minifier": "^4.0.0",
     "livereload": "^0.9.3",
