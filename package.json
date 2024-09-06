@@ -1,5 +1,5 @@
 {
-  "name": "@hex32/dego",
+  "name": "@hexware/dego",
   "version": "0.6.1",
   "bin": "./dist/typescript/bin/index.mjs",
   "type": "commonjs",
