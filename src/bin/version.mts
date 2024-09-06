@@ -3,8 +3,6 @@ import { degoPackageRootPath } from './helpers.mjs'
 import { readFileSync } from 'fs'
 
 export async function getVersion(argv: typeof A) {
-  const packageJSONLocation = degoPackageRootPath + '\\package.json'
-
   const headers = new Headers()
   headers.set(
     'Authorization',
@@ -21,11 +19,18 @@ export async function getVersion(argv: typeof A) {
     Buffer.from(response.content, 'base64').toString('utf8')
   )
 
-  const file = readFileSync(packageJSONLocation, { encoding: 'utf8' })
-  const packageInfo = JSON.parse(file)
+  const packageInfo = getPackageInfo()
+
   if (remotePackageInfo.version !== packageInfo.version) {
     return `Dego is out of date!\nYour version: ${packageInfo.version}\nCurrent version: ${remotePackageInfo.version}`
   } else {
     return `Dego up to date!\nVersion: ${packageInfo.version}`
   }
+}
+
+export function getPackageInfo() {
+  const packageJSONLocation = degoPackageRootPath + '\\package.json'
+
+  const file = readFileSync(packageJSONLocation, { encoding: 'utf8' })
+  return JSON.parse(file)
 }

@@ -1,6 +1,7 @@
-import { cp, readdirSync, readFileSync, writeFileSync } from 'fs'
+import { cpSync, readdirSync, readFileSync, writeFileSync } from 'fs'
 import { Color, color, degoPackageRootPath } from '../helpers.mjs'
 import { resolve } from 'path'
+import { getPackageInfo } from '../version.mjs'
 
 export function create(isForced: boolean) {
   console.log(color('Generating default Dego project...', Color.Blue))
@@ -21,50 +22,26 @@ export function create(isForced: boolean) {
   }
 
   const defaultProjectPath = resolve(degoPackageRootPath, './default-project')
+  cpSync(defaultProjectPath, rootDir, { recursive: true })
 
-  cp(defaultProjectPath, rootDir, { recursive: true }, err => {
-    if (err) {
-      console.error(
-        color(
-          '\nThere was an error while generating project. ' + err,
-          Color.Red
-        )
+  const packagePath = resolve(rootDir, './package.json')
+  const currentPackage = readFileSync(packagePath, { encoding: 'utf8' })
+
+  const editedPackage = currentPackage.replace(
+    /\$\{VERSION\}/g,
+    getPackageInfo().version
+  )
+
+  writeFileSync(packagePath, editedPackage)
+
+  console.log(
+    color('Default project created!\n', Color.Green) +
+      color('Steps to continue:', Color.White) +
+      color('1. Run `npm i` or `pnpm i`.\n2. Run `npm run dev`.', Color.Cyan) +
+      color('\nGet your app ready for production:', Color.White) +
+      color(
+        '1. Run `npm run build`.\n2. Run `npm run serve` to serve app in production mode.\n',
+        Color.Cyan
       )
-
-      return
-    }
-
-    const defaultProjectPackageJsonLocation = resolve(rootDir, './package.json')
-
-    const packageJsonFile = readFileSync(
-      defaultProjectPackageJsonLocation,
-      'utf-8'
-    )
-
-    const file = readFileSync(degoPackageRootPath + '\\package.json', {
-      encoding: 'utf8',
-    })
-    const packageInfo = JSON.parse(file)
-
-    const newPackageJsonFile = packageJsonFile.replace(
-      /\$\{version\}/g,
-      packageInfo.version
-    )
-
-    writeFileSync(defaultProjectPackageJsonLocation, newPackageJsonFile)
-
-    console.log(
-      color('Default project created!\n', Color.Green) +
-        color('Steps to continue:', Color.White) +
-        color(
-          '1. Run `npm i` or `pnpm i`.\n2. Run `npm run dev`.',
-          Color.Cyan
-        ) +
-        color('\nGet your app ready for production:', Color.White) +
-        color(
-          '1. Run `npm run build`.\n2. Run `npm run serve` to serve app in production mode.\n',
-          Color.Cyan
-        )
-    )
-  })
+  )
 }
