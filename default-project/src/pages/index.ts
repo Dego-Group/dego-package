@@ -41,7 +41,7 @@ export default function Index() {
 
     <div class=${hearts}>
       <h3>How many hearts can you give?</h3>
-      <p>Click the heart bellow to give hearts to Dego.</p>
+      <p>Click the heart below to give hearts to Dego.</p>
       <button
         class=${heartIcon}
         onclick=${() => setNumberOfHearts((numberOfHearts ?? 0) + 1)}

@@ -1,6 +1,6 @@
 {
   "name": "dego-package",
-  "version": "0.7.8",
+  "version": "0.7.9",
   "bin": {
     "dego-package": "dist/typescript/bin/index.mjs"
   },
