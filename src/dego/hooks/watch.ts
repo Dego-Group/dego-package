@@ -29,9 +29,9 @@ export function useWatch<T extends any[]>(
   const onMount = deps === undefined ? true : runOnMount
   if (!deps) deps = [] as unknown as Readonly<T>
 
-  const helper = new HookHelper<Memory>()
+  const hook = new HookHelper<Memory>()
 
-  const data = helper.getMemory()
+  const data = hook.getMemory()
 
   if (!data) {
     let cleanup: (() => void) | void = undefined
@@ -41,11 +41,11 @@ export function useWatch<T extends any[]>(
       cleanup = callback(deps, deps)
 
       if (typeof cleanup === 'function') {
-        id = helper.addUnmountFunction(cleanup)
+        id = hook.addUnmountFunction(cleanup)
       }
     }
 
-    helper.setMemory({
+    hook.setMemory({
       prevValues: deps,
       prevCleanup: cleanup,
       prevCleanupId: id,
@@ -76,14 +76,14 @@ export function useWatch<T extends any[]>(
     let id: string | undefined = undefined
 
     if (newCleanup) {
-      if (data.prevCleanupId) helper.removeUnmountFunction(data.prevCleanupId)
+      if (data.prevCleanupId) hook.removeUnmountFunction(data.prevCleanupId)
 
-      id = helper.addUnmountFunction(newCleanup)
+      id = hook.addUnmountFunction(newCleanup)
     }
 
     if (data.prevCleanup) data.prevCleanup()
 
-    helper.setMemory({
+    hook.setMemory({
       prevValues: deps,
       prevCleanup: newCleanup,
       prevCleanupId: id,
