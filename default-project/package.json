@@ -5,7 +5,7 @@
     "serve": "dego serve"
   },
   "dependencies": {
-    "dego": "link:..\\dego-package"
+    "dego-package": "^0.6.16"
   },
   "devDependencies": {
     "typescript": "^5.4.5"
