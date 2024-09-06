@@ -189,7 +189,7 @@ function renderHtml(out: string, route = '') {
       /--_DEGO_SSG_OUTPUT_START--\n(?<content>(?:.|\n)*)--_DEGO_SSG_OUTPUT_END--/g
 
     const result = utf8Decode(
-      execSync(`node '${path.resolve(out, './ssg.bundle.js')}' ${route}`)
+      execSync(`node "${path.resolve(out, './ssg.bundle.js')}" ${route}`)
     )
 
     const match = regex.exec(result)

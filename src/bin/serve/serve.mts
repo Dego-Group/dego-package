@@ -1,5 +1,5 @@
 import express from 'express'
-import type { Express } from 'express'
+import { Express } from 'express'
 import { existsSync, promises, readFileSync } from 'fs'
 import { lookup } from 'mime-types'
 import { isAbsolute, relative, resolve } from 'path'
