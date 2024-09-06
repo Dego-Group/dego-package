@@ -8,7 +8,7 @@ import webpack from 'webpack'
 import { DegoConfiguration } from '../config.mjs'
 import { SWCOptions, SWCOptionsDev } from './swc.config.mjs'
 import { existsSync, readdirSync } from 'fs'
-import { degoPackageRootPath } from '../helpers.mjs'
+import { createRequire } from 'module'
 
 let hasPublic: boolean | undefined = undefined
 
@@ -51,7 +51,10 @@ export default function getWebpackConfig(
   config: DegoConfiguration,
   production: boolean
 ) {
-  const node_modules = path.resolve(degoPackageRootPath, './node_modules')
+  const require = createRequire(import.meta.url)
+  const swcPath = require.resolve('swc-loader')
+  const cssPath = require.resolve('css-loader')
+
   const out = path.resolve(config.outDir, './static')
   return {
     target: 'web',
@@ -71,8 +74,9 @@ export default function getWebpackConfig(
         {
           test: /\.m?ts$/,
           exclude: /(node_modules)/,
+
           use: {
-            loader: path.resolve(node_modules, 'swc-loader'),
+            loader: swcPath,
             options: production ? SWCOptions : SWCOptionsDev,
           },
         },
@@ -83,7 +87,7 @@ export default function getWebpackConfig(
               loader: MiniCssExtractPlugin.loader,
             },
             {
-              loader: path.resolve(node_modules, 'css-loader'),
+              loader: cssPath,
             },
           ],
         },
