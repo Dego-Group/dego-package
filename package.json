@@ -1,12 +1,24 @@
 {
   "name": "dego-package",
-  "version": "0.7.10",
+  "description": "Dego is a JavaScript framework built for speed and efficiency. Dego gives developers the ability to make complex apps by writing HTML directly in the JavaScript. Providing an ECMA compliant syntax to create functional components (unlike JSX).",
+  "main": "./dist/webpack/dego/index.js",
+  "version": "0.7.11",
   "bin": {
     "dego-package": "dist/typescript/bin/index.mjs"
   },
   "type": "commonjs",
-  "main": "./dist/webpack/dego/index.js",
   "types": "./types/index.d.ts",
+  "homepage": "https://github.com/Dego-Group/dego-package#readme",
+  "license": "MIT",
+  "keywords": [
+    "framework",
+    "dego",
+    "open source"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Dego-Group/dego-package.git"
+  },
   "scripts": {
     "dev": "rm -rf ./dist && concurrently \"tsc --watch --preserveWatchOutput\" \"webpack --watch\" -n \"BIN,LIB\" -c \"bgGreen,bgCyan\"",
     "build": "rm -rf ./dist && tsc && webpack"
