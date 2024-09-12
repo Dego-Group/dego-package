@@ -9,6 +9,7 @@ import yargs from 'yargs'
 import { startServer } from './serve/serve.mjs'
 import startDevServer from './serve/dev-serve.mjs'
 import { create } from './create/create.mjs'
+import { degoPackageRootPath } from './helpers.mjs'
 
 export const EXPECTED_COMMANDS = [
   {
@@ -55,6 +56,13 @@ export const OPTIONS = {
     description:
       'Attempt to force a command, only specific commands support this.',
   },
+  debug: {
+    type: 'boolean',
+    default: false,
+    alias: ['d'],
+    description:
+      'Provide additional debug information, only specific commands support this.',
+  },
 } as const
 
 export const argv = yargs(process.argv.slice(2))
@@ -64,6 +72,14 @@ export const argv = yargs(process.argv.slice(2))
   .parseSync()
 
 const config = await getConfig(argv.config ?? DEFAULT_CONFIG_PATH)
+
+if (argv.debug) {
+  console.log('--- DEBUG ---')
+  console.log('Dego Root Path:', degoPackageRootPath)
+  console.log('Argv:', process.argv)
+  console.log('Config:', config)
+  console.log('--- DEBUG END ---\n')
+}
 
 switch (argv._[0] as (typeof EXPECTED_COMMANDS)[number]['command']) {
   case 'serve': {

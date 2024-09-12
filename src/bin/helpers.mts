@@ -1,9 +1,13 @@
 const splitPath = process.argv[1].split('\\')
 
-export const degoPackageRootPath =
-  splitPath[splitPath.length - 1] === 'dego-package'
-    ? process.argv[1]
-    : splitPath.slice(0, -4).join('\\')
+import { fileURLToPath } from 'node:url'
+
+const __filename = fileURLToPath(import.meta.url)
+
+export const degoPackageRootPath = __filename
+  .split('\\')
+  .slice(0, -4)
+  .join('\\')
 
 export enum Color {
   Black = 30,
