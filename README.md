@@ -4,8 +4,7 @@ Dego is a JavaScript framework built for speed and efficiency. Dego gives develo
 
 ## Documentation
 
-> [!WARNING]Notice:
-> Dego is currently in alpha. It is **not** production ready and should not be used in a production application
+> **Notice:** Dego is currently in alpha. It is **not** production ready and should not be used in a production application
 
 Dego's documentation is currently under construction 🏗️
 
