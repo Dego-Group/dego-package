@@ -1,7 +1,9 @@
-export const degoPackageRootPath = process.argv[1]
-  .split('\\')
-  .slice(0, -4)
-  .join('\\')
+const splitPath = process.argv[1].split('\\')
+
+export const degoPackageRootPath =
+  splitPath[splitPath.length - 1] === 'dego-package'
+    ? process.argv[1]
+    : splitPath.slice(0, -4).join('\\')
 
 export enum Color {
   Black = 30,
