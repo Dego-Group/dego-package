@@ -1,7 +1,7 @@
 import { Compiler } from 'webpack'
 
 import fs from 'fs'
-import path from 'path'
+import path, { resolve } from 'path'
 import minifier from 'html-minifier'
 import { z } from 'zod'
 import { execSync } from 'child_process'
@@ -32,8 +32,10 @@ export default class DegoBuild {
     const { webpack } = compiler
     const { Compilation } = webpack
     const { RawSource } = webpack.sources
-    const defaultHTMLTemplatePath =
-      degoPackageRootPath + '\\defaultTemplate.html'
+    const defaultHTMLTemplatePath = resolve(
+      degoPackageRootPath,
+      './defaultTemplate.html'
+    )
 
     const nodeOutputPath = path.resolve(this.options.out, './prebuild')
     if (!fs.existsSync(nodeOutputPath)) {

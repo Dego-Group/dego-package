@@ -73,7 +73,7 @@ export default function getWebpackConfig(
       rules: [
         {
           test: /\.m?ts$/,
-          exclude: /(node_modules)/,
+          exclude: /node_modules/,
 
           use: {
             loader: swcPath,
@@ -82,6 +82,8 @@ export default function getWebpackConfig(
         },
         {
           test: /\.css$/i,
+          exclude: /node_modules/,
+
           use: [
             {
               loader: MiniCssExtractPlugin.loader,
