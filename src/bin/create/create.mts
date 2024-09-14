@@ -24,9 +24,15 @@ export function create(isForced: boolean) {
       return
     }
 
-    const hasPnpm = Number.parseInt(
-      utf8Decode(execSync('pnpm -v')).split('.')[0]
-    )
+    const hasPnpm = checkForPnpm()
+
+    function checkForPnpm() {
+      try {
+        return !!Number.parseInt(utf8Decode(execSync('pnpm -v')).split('.')[0])
+      } catch {
+        return false
+      }
+    }
 
     if (!existsSync(degoPackageRootPath)) {
       console.log(color('Installing `dego-package`...', Color.Blue))
