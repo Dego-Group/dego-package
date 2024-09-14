@@ -1,13 +1,14 @@
-const splitPath = process.argv[1].split('\\')
+import { resolve } from 'node:path'
 
-import { fileURLToPath } from 'node:url'
+export const degoPackageRootPath = resolve(
+  process.cwd(),
+  './node_modules/dego-package'
+)
 
-const __filename = fileURLToPath(import.meta.url)
-
-export const degoPackageRootPath = __filename
-  .split('\\')
-  .slice(0, -4)
-  .join('\\')
+export function utf8Decode(buffer: Buffer) {
+  const decoder = new TextDecoder('utf-8')
+  return decoder.decode(buffer)
+}
 
 export enum Color {
   Black = 30,

@@ -5,7 +5,7 @@ import path from 'path'
 import minifier from 'html-minifier'
 import { z } from 'zod'
 import { execSync } from 'child_process'
-import { degoPackageRootPath } from '../helpers.mjs'
+import { degoPackageRootPath, utf8Decode } from '../helpers.mjs'
 const minify = minifier.minify
 
 // schema for options object
@@ -209,11 +209,6 @@ function renderHtml(out: string, route = '') {
       rootElementId: 'root', // Assume root if it failed
     }
   }
-}
-
-function utf8Decode(buffer: Buffer) {
-  const decoder = new TextDecoder('utf-8')
-  return decoder.decode(buffer)
 }
 
 function editInnerHtml(html: string, id: string, newInnerHtml: string) {
