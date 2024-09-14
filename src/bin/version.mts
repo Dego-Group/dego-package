@@ -1,6 +1,7 @@
 import { argv as A } from './index.mjs'
 import { degoPackageRootPath } from './helpers.mjs'
 import { readFileSync } from 'fs'
+import { resolve } from 'path'
 
 export async function getVersion(argv: typeof A) {
   const headers = new Headers()
@@ -29,7 +30,7 @@ export async function getVersion(argv: typeof A) {
 }
 
 export function getPackageInfo() {
-  const packageJSONLocation = degoPackageRootPath + '\\package.json'
+  const packageJSONLocation = resolve(degoPackageRootPath, './package.json')
 
   const file = readFileSync(packageJSONLocation, { encoding: 'utf8' })
   return JSON.parse(file)
