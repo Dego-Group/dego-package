@@ -1,5 +1,6 @@
-import { Link, e, html } from 'dego-package'
+import { e, html } from 'dego-package'
 
+import { Link } from 'dego-package/components'
 import { wrapper } from './style.module.css'
 
 export function Header() {

@@ -1,0 +1,10 @@
+#!/usr/bin/env node
+export * from './dego/hooks/fetch'
+export * from './dego/hooks/globalStore'
+export * from './dego/hooks/globalValue'
+export * from './dego/hooks/globals'
+export * from './dego/hooks/hook-helper'
+export * from './dego/hooks/render-queue'
+export * from './dego/hooks/store'
+export * from './dego/hooks/value'
+export * from './dego/hooks/watch'

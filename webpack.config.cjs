@@ -7,6 +7,8 @@ module.exports = {
   target: 'node',
   entry: {
     index: './src/index.ts',
+    hooks: './src/hooks.ts',
+    components: './src/components.ts',
   },
   output: {
     filename: '[name].js',

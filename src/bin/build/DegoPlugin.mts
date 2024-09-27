@@ -197,7 +197,7 @@ function renderHtml(out: string, route = '') {
     const match = regex.exec(result)
 
     if (!match?.groups || !match?.groups.content) {
-      throw new Error('Could not found Dego SSG output!')
+      throw new Error('Could not find Dego SSG output!')
     }
 
     return JSON.parse(match.groups.content)

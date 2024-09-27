@@ -60,6 +60,7 @@ export function create(isForced: boolean) {
       name: 'default-dego-app',
       version: '0.1.0',
       private: true,
+      type: 'module',
       scripts: {
         dev: 'dego-package dev',
         build: 'dego-package build',

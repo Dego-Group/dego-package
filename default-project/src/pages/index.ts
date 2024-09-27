@@ -5,7 +5,8 @@ import {
   hearts,
   wrapper,
 } from './style.module.css'
-import { e, html, useValue, useWatch } from 'dego-package'
+import { e, html } from 'dego-package'
+import { useValue, useWatch } from 'dego-package/hooks'
 
 const EMOJI = '💖'
 const LS_KEY = 'hearts'

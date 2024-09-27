@@ -15,6 +15,20 @@
     "dego",
     "open source"
   ],
+  "exports": {
+    ".": {
+      "import": "./dist/webpack/dego/index.js",
+      "types": "./types/index.d.ts"
+    },
+    "./hooks": {
+      "import": "./dist/typescript/hooks.js",
+      "types": "./types/hooks.d.ts"
+    },
+    "./components": {
+      "import": "./dist/typescript/components.js",
+      "types": "./types/components.d.ts"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/Dego-Group/dego-package.git"
