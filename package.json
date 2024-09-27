@@ -2,7 +2,7 @@
   "name": "dego-package",
   "description": "Dego is a JavaScript framework built for speed and efficiency. Dego gives developers the ability to make complex apps by writing HTML directly in the JavaScript. Providing an ECMA compliant syntax to create functional components (unlike JSX).",
   "main": "./dist/webpack/dego/index.js",
-  "version": "0.7.24",
+  "version": "0.8.0",
   "bin": {
     "dego-package": "dist/typescript/bin/index.mjs"
   },
